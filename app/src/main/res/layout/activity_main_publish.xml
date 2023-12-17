@@ -9,8 +9,8 @@
 
     <EditText
         android:id="@+id/editTextText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="219dp"
+        android:layout_height="57dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="108dp"
         android:ems="10"
@@ -21,8 +21,8 @@
 
     <EditText
         android:id="@+id/editTextText4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="217dp"
+        android:layout_height="54dp"
         android:layout_marginTop="188dp"
         android:layout_marginEnd="108dp"
         android:ems="10"
@@ -33,8 +33,8 @@
 
     <EditText
         android:id="@+id/editTextText5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="217dp"
+        android:layout_height="50dp"
         android:layout_marginTop="248dp"
         android:layout_marginEnd="108dp"
         android:ems="10"
@@ -47,8 +47,8 @@
         android:id="@+id/textView4"
         android:layout_width="219dp"
         android:layout_height="46dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="108dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="112dp"
         android:text="Add Question"
         android:textAlignment="center"
         android:textSize="34sp"
@@ -60,8 +60,8 @@
         android:id="@+id/spinner"
         android:layout_width="221dp"
         android:layout_height="65dp"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="148dp" />
+        tools:layout_editor_absoluteX="83dp"
+        tools:layout_editor_absoluteY="133dp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -87,15 +87,15 @@
 
     <Spinner
         android:id="@+id/spinner2"
-        android:layout_width="197dp"
-        android:layout_height="64dp"
+        android:layout_width="206dp"
+        android:layout_height="65dp"
         tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="255dp" />
+        tools:layout_editor_absoluteY="254dp" />
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="217dp"
+        android:layout_height="52dp"
         android:layout_marginEnd="116dp"
         android:layout_marginBottom="340dp"
         android:ems="10"
@@ -106,8 +106,8 @@
 
     <EditText
         android:id="@+id/editTextText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="58dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="116dp"
         android:ems="10"
@@ -140,10 +140,10 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="324dp"
-        android:layout_marginEnd="328dp"
+        android:layout_width="74dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="316dp"
+        android:layout_marginEnd="312dp"
         android:text="Question"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,10 +151,10 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="108dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="171dp"
-        android:layout_marginBottom="2dp"
+        android:layout_width="143dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="4dp"
         android:text="Publish"
         android:textColorHighlight="#ABDFF6"
         android:textColorLink="#D69090"
