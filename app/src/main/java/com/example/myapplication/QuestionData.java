@@ -1,5 +1,8 @@
 package com.example.myapplication;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class QuestionData
 {
     private String subject;
@@ -34,7 +37,7 @@ public class QuestionData
     {
         return A2;
     }
-    public String getsuA3()
+    public String getA3()
     {
         return A3;
     }
@@ -69,5 +72,21 @@ public class QuestionData
     public void setA4(String A4)
     {
         this.A4 = A4;
+    }
+
+
+    public boolean checkAnswer(String answer)
+    {
+        return this.A1.equals(answer);
+    }
+
+    public ArrayList<String> shuffleQuestions()
+    {
+        ArrayList<String> arr = new ArrayList<>();
+        arr.add(A1);arr.add(A2);arr.add(A3);arr.add(A4);
+
+        Collections.shuffle(arr);
+        return arr;
+
     }
 }

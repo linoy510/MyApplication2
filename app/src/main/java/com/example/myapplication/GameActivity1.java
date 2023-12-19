@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +19,8 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
-public class GameActivity1 extends AppCompatActivity {
-
+public class GameActivity1 extends AppCompatActivity implements View.OnClickListener{
+    private int counter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,19 +51,43 @@ public class GameActivity1 extends AppCompatActivity {
                             Button t2 = findViewById(R.id.button4);
                             Button t3 = findViewById(R.id.button5);
                             Button t4 = findViewById(R.id.button6);
+
+                            t1.setOnClickListener(GameActivity1.this);
+                            t2.setOnClickListener(GameActivity1.this);
+                            t3.setOnClickListener(GameActivity1.this);
+                            t4.setOnClickListener(GameActivity1.this);
+
                             t.setText(arr.get(0).getQuestion());
-                            t1.setText(arr.get(0).getA1());
-                            t2.setText(arr.get(0).getA2());
-                            t3.setText(arr.get(0).getsuA3());
-                            t4.setText(arr.get(0).getA4());
+                            ArrayList<String> arr2 = arr.get(0).shuffleQuestions();
+
+                            //t1.setText(arr.get(0).getA1());
+                            //t2.setText(arr.get(0).getA2());
+                            //t3.setText(arr.get(0).getA3());
+                            //t4.setText(arr.get(0).getA4());
 
 
 
                         }
+
                     }
 
                 });
 
+
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        Button b = (Button)v;
+        String s = (String) b.getText();
+        QuestionData t = new QuestionData();
+        if(t.checkAnswer(s))
+        {
+            counter++;
+
+        }
+        getQuestion();
 
     }
 }
