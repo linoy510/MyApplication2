@@ -30,7 +30,7 @@ public class loginPage extends AppCompatActivity {
 
     private void moveToNextActivity()
     {
-        Intent intent = new Intent(loginPage.this, GameActivity1.class);
+        Intent intent = new Intent(loginPage.this, MainAtv1.class);
         startActivity(intent);
     }
 

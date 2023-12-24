@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#B5E6DF"
+    tools:context=".MainAtv1">
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="210dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="104dp"
+        android:onClick="onClick"
+        android:text="Practice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="205dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="212dp"
+        android:text="Online"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+
+        android:id="@+id/spAt1Level"
+        android:visibility="invisible"
+        android:layout_width="227dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
