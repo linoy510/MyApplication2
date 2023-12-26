@@ -19,6 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameActivity1 extends AppCompatActivity implements View.OnClickListener{
     private int counter = 0;
@@ -34,6 +35,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
+
 
         setUI();
 
@@ -57,10 +59,12 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
     private void getQuestion() {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        Intent i = getIntent();
+        int level = i.getIntExtra("levelSelected",1);
 
 
         firebaseFirestore.collection("questions")
-                .whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", 1).limit(10)
+                .whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).limit(3)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -69,6 +73,10 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 arr.add(doc.toObject(QuestionData.class));
                             }
+
+                            Collections.shuffle(arr);
+
+
                            // Toast.makeText(GameActivity1.this, arr.get(0).getQuestion(), Toast.LENGTH_SHORT).show();
 
                             // this means we received the questions...
