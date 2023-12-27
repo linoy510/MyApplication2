@@ -118,8 +118,10 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
         if(currentQuestion.checkAnswer(s))
         {
+            Toast.makeText(GameActivity1.this, "you are right!", Toast.LENGTH_SHORT).show();
             counter++;
         }
+        else Toast.makeText(GameActivity1.this, "you are wrong", Toast.LENGTH_SHORT).show();
         countQ++;
       //  Intent intent = new Intent(GameActivity1.this, GameActivity1.class);
        // startActivity(intent);
