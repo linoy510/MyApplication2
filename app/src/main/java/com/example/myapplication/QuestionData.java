@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,10 +15,22 @@ public class QuestionData
     private String A3;
     private String A4;
 
+
     public QuestionData()
     {
 
     }
+    public QuestionData(String subject, int level, String question, String A1, String A2, String A3, String A4)
+    {
+        this.subject = subject;
+        this.level = level;
+        this.question = question;
+        this.A1 = A1;
+        this.A2 = A2;
+        this.A3 = A3;
+        this.A4 = A4;
+    }
+
     public String getSubject()
     {
         return subject;

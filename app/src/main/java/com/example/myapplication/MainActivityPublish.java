@@ -3,10 +3,16 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +22,8 @@ public class MainActivityPublish extends AppCompatActivity implements AdapterVie
     ArrayList<String> Topics;
     Spinner spLevel;
     ArrayList<String> Levels;
+    private int level=0;
+    private String subject="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +51,55 @@ public class MainActivityPublish extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
+        if(position == 0)
+            return;
+
+        if(view.getId() == R.id.spinnerTopic)
+        {
+            subject = findViewById(R.id.spinnerTopic).toString();
+        }
+        else if (view.getId()==R.id.spLevel) {
+            level=position;
+        }
+
 
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent)
     {
+
+    }
+
+    public void onCilck2(View view)
+    {
+        if(level==0 || subject.equals(""))
+            return;
+
+        EditText textQuestion = findViewById(R.id.editTextText);
+        EditText textRightAnswer = findViewById(R.id.editTextText2);
+        EditText textWrongAnswer1 = findViewById(R.id.editTextText4);
+        EditText textWrongAnswer2 = findViewById(R.id.editTextText3);
+        EditText textWrongAnswer3 = findViewById(R.id.editTextText5);
+
+        if(!TextUtils.isEmpty(textQuestion.getText()) && !TextUtils.isEmpty(textRightAnswer.getText()) && !TextUtils.isEmpty(textWrongAnswer1.getText()) && !TextUtils.isEmpty(textWrongAnswer2.getText()) && !TextUtils.isEmpty(textWrongAnswer3.getText()))
+        {
+            String question = textQuestion.getText().toString();
+            String A1 = textQuestion.getText().toString();
+            String A2 = textQuestion.getText().toString();
+            String A3 = textQuestion.getText().toString();
+            String A4 = textQuestion.getText().toString();
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            QuestionData user = new QuestionData(question, level,A1, A2, A3, A4, subject);
+            addUserToFireStore(user);
+        }
+    }
+
+    private void addUserToFireStore(QuestionData user)
+    {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("questions").add(user);
 
     }
 }
