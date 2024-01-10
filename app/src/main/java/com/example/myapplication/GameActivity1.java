@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +13,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Range;
+import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -20,10 +24,14 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class GameActivity1 extends AppCompatActivity implements View.OnClickListener{
+
     private int counter = 0;
     private int countQ = 0;
+
+    private final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
     private ArrayList<QuestionData> arr = new ArrayList<>();
     TextView t;;
     Button t1;
@@ -62,19 +70,27 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         Intent i = getIntent();
         int level = i.getIntExtra("levelSelected",1);
 
+        Random r = new Random();
+        int randIndex = r.nextInt(questionCat.length);
+        String orderBy = questionCat[randIndex];
+        firebaseFirestore.collection("questions").whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).orderBy(questionCat[randIndex]).limit(10)
 
-        firebaseFirestore.collection("questions")
-                .whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).limit(3)
+    //    firebaseFirestore.collection("questions")
+      //          .whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).limit(10)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        ArrayList<QuestionData> tArr = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                arr.add(doc.toObject(QuestionData.class));
+                                tArr.add(doc.toObject(QuestionData.class));
                             }
 
-                            Collections.shuffle(arr);
+                            Log.d("READ FROM FB", "onComplete: " + arr.size());
+                            Collections.shuffle(tArr);
+
+                            arr.addAll(tArr.subList(0,tArr.size()));
 
 
                            // Toast.makeText(GameActivity1.this, arr.get(0).getQuestion(), Toast.LENGTH_SHORT).show();
@@ -89,6 +105,8 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
 
                         }
+                        else
+                            Log.d("cat arr", "onComplete: " + task.getException().getMessage());
 
                     }
 

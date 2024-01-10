@@ -1,17 +1,24 @@
 package com.example.myapplication;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -54,11 +61,11 @@ public class MainActivityPublish extends AppCompatActivity implements AdapterVie
         if(position == 0)
             return;
 
-        if(view.getId() == R.id.spinnerTopic)
+        if(parent.getId() == R.id.spinnerTopic)
         {
-            subject = findViewById(R.id.spinnerTopic).toString();
+            subject = Topics.get(position);//findViewById(R.id.spinnerTopic).toString();;
         }
-        else if (view.getId()==R.id.spLevel) {
+        else if (parent.getId()==R.id.spLevel) {
             level=position;
         }
 
@@ -86,12 +93,12 @@ public class MainActivityPublish extends AppCompatActivity implements AdapterVie
         if(!TextUtils.isEmpty(textQuestion.getText()) && !TextUtils.isEmpty(textRightAnswer.getText()) && !TextUtils.isEmpty(textWrongAnswer1.getText()) && !TextUtils.isEmpty(textWrongAnswer2.getText()) && !TextUtils.isEmpty(textWrongAnswer3.getText()))
         {
             String question = textQuestion.getText().toString();
-            String A1 = textQuestion.getText().toString();
-            String A2 = textQuestion.getText().toString();
-            String A3 = textQuestion.getText().toString();
-            String A4 = textQuestion.getText().toString();
+            String A1 = textRightAnswer.getText().toString();
+            String A2 = textWrongAnswer1.getText().toString();
+            String A3 = textWrongAnswer2.getText().toString();
+            String A4 = textWrongAnswer3.getText().toString();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            QuestionData user = new QuestionData(question, level,A1, A2, A3, A4, subject);
+            QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
             addUserToFireStore(user);
         }
     }
@@ -99,7 +106,18 @@ public class MainActivityPublish extends AppCompatActivity implements AdapterVie
     private void addUserToFireStore(QuestionData user)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection("questions").add(user);
+        fb.collection("questions").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("PUBLISH ", "onSuccess: published");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("PUBLISH ", "onfail : published " + e.getMessage());
+
+            }
+        });
 
     }
 }
