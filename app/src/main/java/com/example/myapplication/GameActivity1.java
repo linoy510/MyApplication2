@@ -33,7 +33,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
     private final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
     private ArrayList<QuestionData> arr = new ArrayList<>();
-    TextView t;;
+    TextView t;
     Button t1;
     Button t2;
     Button t3;
@@ -73,7 +73,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         Random r = new Random();
         int randIndex = r.nextInt(questionCat.length);
         String orderBy = questionCat[randIndex];
-        firebaseFirestore.collection("questions").whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).orderBy(questionCat[randIndex]).limit(10)
+        firebaseFirestore.collection("questions").whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).orderBy("a4").limit(10)
 
     //    firebaseFirestore.collection("questions")
       //          .whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).limit(10)
@@ -99,10 +99,6 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
                             // call displayQuestion
 
                             displayQuestion();
-
-
-
-
 
                         }
                         else
