@@ -29,11 +29,12 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
 
     @Override
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        Intent intent = new Intent(MainAtv1.this, MainActivityPublish.class);
+        startActivity(intent);
         int id = item.getItemId();
         return true;
-
     }
 
 
