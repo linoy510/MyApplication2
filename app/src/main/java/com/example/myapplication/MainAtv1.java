@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +17,24 @@ import java.util.ArrayList;
 public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
  Spinner spLevels;
  ArrayList<String> Levels;
+    @Override
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return  true;
+
+    }
+
+    @Override
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        return true;
+
+    }
 
 
 
@@ -34,6 +54,10 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
 
 
     }
+
+
+
+
 
     public void onClick(View view)
     {
@@ -59,9 +83,9 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
     {
     }
 
-    public void onClicked(View view)
-    {
-        Intent intent = new Intent(MainAtv1.this, MainActivityPublish.class);
-        startActivity(intent);
-    }
+   // public void onClicked(View view)
+   // {
+   // Intent intent = new Intent(MainAtv1.this, MainActivityPublish.class);
+   //     startActivity(intent);
+   // }
 }

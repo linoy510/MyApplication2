@@ -73,11 +73,8 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         Random r = new Random();
         int randIndex = r.nextInt(questionCat.length);
         String orderBy = questionCat[randIndex];
-        firebaseFirestore.collection("questions").whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).orderBy("a4").limit(10)
-
-    //    firebaseFirestore.collection("questions")
-      //          .whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).limit(10)
-                .get()
+     //   firebaseFirestore.collection("questions").whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).orderBy("a1").limit(10).get()
+        firebaseFirestore.collection("questions").whereEqualTo("level", level).orderBy("a1").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -111,16 +108,24 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void displayQuestion() {
+    private void displayQuestion()
+    {
 
-        t.setText(arr.get(countQ).getQuestion());
-        ArrayList<String> arr2 = arr.get(countQ).shuffleQuestions();
-        currentQuestion = arr.get(countQ);
+        if(countQ < 11) {
+            t.setText(arr.get(countQ).getQuestion());
+            ArrayList<String> arr2 = arr.get(countQ).shuffleQuestions();
+            currentQuestion = arr.get(countQ);
 
-        t1.setText(arr2.get(0));
-        t2.setText(arr2.get(1));
-        t3.setText(arr2.get(2));
-        t4.setText(arr2.get(3));
+            t1.setText(arr2.get(0));
+            t2.setText(arr2.get(1));
+            t3.setText(arr2.get(2));
+            t4.setText(arr2.get(3));
+        }
+        else
+        {
+            //  Intent intent = new Intent(GameActivity1.this, GameActivity1.class);
+            // startActivity(intent);
+        }
 
     }
 
