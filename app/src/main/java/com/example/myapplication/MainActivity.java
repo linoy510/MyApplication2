@@ -19,23 +19,5 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity
 {
 
-    @Override
-    protected void onCreate (Bundle savedInstaceState)
-    {
-        super.onCreate(savedInstaceState);
-        setContentView(R.layout.activity_main_atv1);
-        new Thread((Runnable) () ->{try { synchronized (this) {
-            try {
-                wait(3000);
-            Intent in = new Intent(MainActivity.this, MainAtv1.class);
-            in.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(in);
-            finish();
-        }
-        }catch (InterruptedException e){e.printStackTrace();}
-        }start();
+
 }
-    }
-
-
-    }

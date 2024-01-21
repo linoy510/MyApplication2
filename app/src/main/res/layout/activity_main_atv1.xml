@@ -9,6 +9,17 @@
     tools:context=".MainAtv1">
 
     <Button
+        android:id="@+id/button12"
+        android:layout_width="205dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="84dp"
+        android:onClick="onClicked"
+        android:text="Online Create"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/button7"
         android:layout_width="210dp"
         android:layout_height="82dp"
@@ -25,8 +36,8 @@
         android:layout_height="82dp"
         android:layout_marginStart="100dp"
         android:layout_marginBottom="212dp"
-        android:text="Online"
         android:onClick="onClicked"
+        android:text="Online Join"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,4 +52,5 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
