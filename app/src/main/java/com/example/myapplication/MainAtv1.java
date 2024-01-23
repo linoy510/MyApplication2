@@ -89,7 +89,6 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
 
     public void onClicked(View view)
     {
-    Intent intent = new Intent(MainAtv1.this, MainActivityPublish.class);
-        startActivity(intent);
+
     }
 }

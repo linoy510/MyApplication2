@@ -99,25 +99,10 @@ public class MainActivityPublish extends AppCompatActivity implements AdapterVie
             String A4 = textWrongAnswer3.getText().toString();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
-            addUserToFireStore(user);
+            firebaseClass f = new firebaseClass();
+            f.addUserToFireStore(user);
         }
     }
 
-    private void addUserToFireStore(QuestionData user)
-    {
-        FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection("questions").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Log.d("PUBLISH ", "onSuccess: published");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("PUBLISH ", "onfail : published " + e.getMessage());
 
-            }
-        });
-
-    }
 }

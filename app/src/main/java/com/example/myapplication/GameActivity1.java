@@ -26,9 +26,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class GameActivity1 extends AppCompatActivity implements View.OnClickListener{
+public class GameActivity1 extends AppCompatActivity implements View.OnClickListener,IGetQuestion{
 
     private int counter = 0;
+    Intent i = getIntent();
+    int level = i.getIntExtra("levelSelected",1);
     private int countQ = 0;
 
     private final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
@@ -44,16 +46,15 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
 
-
         setUI();
-
-
-        getQuestion();
+        firebaseClass f = new firebaseClass();
+        f.setActivity(this);
+        f.getQuestion(level, questionCat, arr);
     }
 
     private void setUI() {
-         t = findViewById(R.id.textView10);
-         t1 = findViewById(R.id.button3);
+        t = findViewById(R.id.textView10);
+        t1 = findViewById(R.id.button3);
         t2 = findViewById(R.id.button4);
         t3 = findViewById(R.id.button5);
         t4 = findViewById(R.id.button6);
@@ -65,48 +66,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void getQuestion() {
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        Intent i = getIntent();
-        int level = i.getIntExtra("levelSelected",1);
 
-        Random r = new Random();
-        int randIndex = r.nextInt(questionCat.length);
-        String orderBy = questionCat[randIndex];
-     //   firebaseFirestore.collection("questions").whereEqualTo("subject", "ארץ ישראל").whereEqualTo("level", level).orderBy("a1").limit(10).get()
-        firebaseFirestore.collection("questions").whereEqualTo("level", level).orderBy("a1").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<QuestionData> tArr = new ArrayList<>();
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                tArr.add(doc.toObject(QuestionData.class));
-                            }
-
-                            Log.d("READ FROM FB", "onComplete: " + arr.size());
-                            Collections.shuffle(tArr);
-
-                            arr.addAll(tArr.subList(0,tArr.size()));
-
-
-                           // Toast.makeText(GameActivity1.this, arr.get(0).getQuestion(), Toast.LENGTH_SHORT).show();
-
-                            // this means we received the questions...
-                            // call displayQuestion
-
-                            displayQuestion();
-
-                        }
-                        else
-                            Log.d("cat arr", "onComplete: " + task.getException().getMessage());
-
-                    }
-
-                });
-
-
-    }
 
     private void displayQuestion()
     {
@@ -142,9 +102,22 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         }
         else Toast.makeText(GameActivity1.this, "you are wrong", Toast.LENGTH_SHORT).show();
         countQ++;
-      //  Intent intent = new Intent(GameActivity1.this, GameActivity1.class);
-       // startActivity(intent);
         displayQuestion();
 
+    }
+
+    @Override
+    public void questionsFromFirebase(boolean result, ArrayList<QuestionData> arrResult) {
+
+        if(result) // this means success
+        {
+            Log.d("READ FROM FB", "onComplete: " + arr.size());
+            Collections.shuffle(arrResult);
+
+            arr.addAll(arrResult.subList(0, arrResult.size()));
+            this.displayQuestion();
+        }
+        else
+            Toast.makeText(this,"failed to read data " ,Toast.LENGTH_SHORT).show();
     }
 }
