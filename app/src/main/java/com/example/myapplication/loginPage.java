@@ -28,7 +28,7 @@ public class loginPage extends AppCompatActivity {
         }
     }
 
-    private void moveToNextActivity()
+    public void moveToNextActivity()
     {
         Intent intent = new Intent(loginPage.this, MainAtv1.class);
         startActivity(intent);
@@ -40,22 +40,10 @@ public class loginPage extends AppCompatActivity {
         EditText etPassword = findViewById(R.id.editTextTextPassword);
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
+        loginPage p = new loginPage();
+        loginClass l = new loginClass();
+        l.Register(etEmail, etPassword, email, password, p);
+        //mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task)
-            {
-                if(task.isSuccessful())
-                {
-                    Toast.makeText(loginPage.this, "register success!", Toast.LENGTH_SHORT).show();
-                    loginPage.this.moveToNextActivity();
-                }
-                else
-                {
-                    String failureR = task.getException().toString();
-                    Toast.makeText(loginPage.this, "register fail!" + failureR, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        }
     }
-}

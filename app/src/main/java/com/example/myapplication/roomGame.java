@@ -11,6 +11,8 @@ public class roomGame
     private String A2;
     private String A3;
     private String A4;
+    private String subject;
+    private int level;
     public roomGame()
     {
 

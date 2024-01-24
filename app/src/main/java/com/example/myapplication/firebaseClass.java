@@ -64,11 +64,6 @@ public class firebaseClass
 
                     if(activity!=null)
                         activity.questionsFromFirebase(true,tArr);
-
-
-
-
-
                 }
                 else {
                     Log.d("cat arr", "onComplete: " + task.getException().getMessage());
