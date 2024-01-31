@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class GameActivity1 extends AppCompatActivity implements View.OnClickListener,IGetQuestion{
+public class GameActivity1 extends AppCompatActivity implements View.OnClickListener,IGetQuestion,IGameView{
 
     private int counter = 0;
     Intent i = getIntent();
@@ -41,12 +41,16 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     Button t3;
     Button t4;
     private QuestionData currentQuestion = null;
+
+    OnlineGameManager onlineGameManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
-
         setUI();
+
+        onlineGameManager = new OnlineGameManager(this);
+
         firebaseClass f = new firebaseClass();
         f.setActivity(this);
         f.getQuestion(level, questionCat, arr);
@@ -119,5 +123,23 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         }
         else
             Toast.makeText(this,"failed to read data " ,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayQuestion(String q, String[] answers)
+    {
+        t.setText(q);
+        currentQuestion = arr.get(countQ);
+
+        t1.setText(answers[0]);
+        t2.setText(answers[1]);
+        t3.setText(answers[2]);
+        t4.setText(answers[3]);
+    }
+
+    @Override
+    public void showMessage(String message)
+    {
+
     }
 }

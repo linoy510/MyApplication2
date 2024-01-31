@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shareicon"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -44,13 +45,35 @@
     <Spinner
 
         android:id="@+id/spAt1Level"
-        android:visibility="invisible"
         android:layout_width="227dp"
         android:layout_height="66dp"
         android:layout_marginTop="108dp"
         android:layout_marginEnd="100dp"
         android:textAlignment="center"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/codeTextView"
+        android:layout_width="158dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="126dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/button8"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/shareicon2"
+        android:layout_width="56dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="96dp"
+        app:layout_constraintStart_toEndOf="@+id/codeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/button7"
+        app:srcCompat="@drawable/shareiconpic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,19 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
  Spinner spLevels;
  ArrayList<String> Levels;
-
+String gameid = "";
     @Override
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,9 +40,12 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        Intent intent = new Intent(MainAtv1.this, MainActivityPublish.class);
-        startActivity(intent);
         int id = item.getItemId();
+        if(id==R.id.action_publish) {
+
+            Intent intent = new Intent(MainAtv1.this, MainActivityPublish.class);
+            startActivity(intent);
+        }
         return true;
     }
 
@@ -75,6 +86,7 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
             int level = position;
             Intent intent = new Intent(MainAtv1.this, GameActivity1.class);
             intent.putExtra("levelSelected", level);
+            intent.putExtra("GAME_TYPE",AppConstants.PRACTICE);
             startActivity(intent);
         }
 
@@ -89,6 +101,66 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
 
     public void onClicked(View view)
     {
+
+    }
+    protected void onCreate2(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_atv1);
+
+    }
+    private void addRoomToFB()
+    {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("GameRooms").add(roomGame.class).addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference)
+                    {
+                        TextView codeTextView = findViewById(R.id.codeTextView);
+                        ImageView shareImage = findViewById(R.id.shareicon2);
+                        gameid = documentReference.getId();
+                        //codeTextView.setText("Hello! THIS IS THE CODE FOR" + creator.getName() + "'S GAME." + creator.getName() + "IS INVITING YOU TO JOIN! THE CODE IS: " + gameId);
+                        codeTextView.setText("Your game code is: " + gameid + " .Share it with your friends!!!");
+                        codeTextView.setVisibility(View.VISIBLE);
+                        shareImage.setVisibility(View.VISIBLE);
+
+                        Log.d("ONSUCCESS", "id:" + documentReference.getId());
+                        //   shareWithFriends(gameId);
+
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("ONFAILER", "onFailure: " + e.getMessage());
+                    }
+                });
+
+
+
+
+    }
+
+/*
+        RoomGame roomgame = new RoomGame();
+    roomgame.setStatus("CREATED");
+    addRoomToFB(roomgame);
+
+ */
+
+    public void shareWithFriends(View view)
+    {
+        // implicit intent - אינטרנט מרומז
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        //this action indicates that you want to send data.
+        shareIntent.setType("text/plain"); // for sharing text
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello! THIS IS THE CODE FOR THE GAME: " + gameid + " JOIN THE GAME! THE CREATOR IS WAITING FOR YOU!");
+        startActivity(Intent.createChooser(shareIntent, "Share using"));
+
+
 
     }
 }

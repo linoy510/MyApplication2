@@ -18,6 +18,12 @@ public class roomGame
 
     }
 
+    public int getLevel() {
+        return level;
+    }
+    public String getSubject() {
+        return subject;
+    }
     public String getStatus() {
         return status;
     }
@@ -90,11 +96,5 @@ public class roomGame
         A4 = a4;
     }
 
-    public roomGame(String status, String namePlayer1, String namePlayer2, int currentPlayer)
-    {
-        this.currentPlayer = currentPlayer;
-        this.status = status;
-        this.namePlayer1 = namePlayer1;
-        this.namePlayer2 = namePlayer2;
-    }
+
 }
