@@ -118,7 +118,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
             Log.d("READ FROM FB", "onComplete: " + arr.size());
             Collections.shuffle(arrResult);
 
-            arr.addAll(arrResult.subList(0, arrResult.size()));
+            arr.addAll(arrResult.subList(0, arrResult.size()-1));
             this.displayQuestion();
         }
         else

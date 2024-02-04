@@ -13,42 +13,48 @@
         android:id="@+id/button12"
         android:layout_width="205dp"
         android:layout_height="82dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginBottom="84dp"
-        android:onClick="onClicked"
+        android:layout_marginStart="106dp"
+        android:layout_marginBottom="26dp"
+        android:backgroundTint="#45AEBC"
+        android:onClick="addRoomToFB"
         android:text="Online Create"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/button8"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,OnClick" />
 
     <Button
         android:id="@+id/button7"
         android:layout_width="210dp"
         android:layout_height="82dp"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="104dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="100dp"
+        android:backgroundTint="#60D8E8"
         android:onClick="onClick"
         android:text="Practice"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/spAt1Level"
+        tools:ignore="OnClick"/>
 
     <Button
         android:id="@+id/button8"
         android:layout_width="205dp"
         android:layout_height="82dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginBottom="212dp"
+        android:layout_marginStart="106dp"
+        android:layout_marginBottom="93dp"
+        android:backgroundTint="#45AEBC"
         android:onClick="onClicked"
         android:text="Online Join"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="OnClick"/>
 
     <Spinner
 
         android:id="@+id/spAt1Level"
         android:layout_width="227dp"
         android:layout_height="66dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="92dp"
         android:textAlignment="center"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,10 +65,10 @@
         android:layout_width="158dp"
         android:layout_height="38dp"
         android:layout_marginStart="126dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="26dp"
         android:textSize="16sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
+        app:layout_constraintBottom_toTopOf="@+id/button12"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -72,8 +78,10 @@
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="96dp"
+        android:onClick="shareWithFriends"
         app:layout_constraintStart_toEndOf="@+id/codeTextView"
         app:layout_constraintTop_toBottomOf="@+id/button7"
-        app:srcCompat="@drawable/shareiconpic" />
+        app:srcCompat="@drawable/shareiconpic"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
