@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.AppConstants.*;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,7 +85,7 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
             int level = position;
             Intent intent = new Intent(MainAtv1.this, GameActivity1.class);
             intent.putExtra("levelSelected", level);
-            intent.putExtra("GAME_TYPE", AppConstants.PRACTICE);
+            intent.putExtra("GAME_TYPE", PRACTICE);
             startActivity(intent);
         }
 
@@ -111,8 +116,6 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
 
                 Log.d("ONSUCCESS", "id:" + documentReference.getId());
                 //shareWithFriends(view);
-
-
             }
 
 
@@ -128,14 +131,43 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
     }
 
 
-    public void shareWithFriends(View view) {
+    public void shareWithFriends(View view)
+    {
         // implicit intent - אינטרנט מרומז
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         //this action indicates that you want to send data.
         shareIntent.setType("text/plain"); // for sharing text
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello! THIS IS THE CODE FOR THE GAME: " + gameid + " JOIN THE GAME! THE CREATOR IS WAITING FOR YOU!");
         startActivity(Intent.createChooser(shareIntent, "Share using"));
+    }
 
+    @Override
+    protected void onActivityResult(int reqCode, int resCode, @Nullable Intent data)
+    {
+        super.onActivityResult(reqCode, resCode, data);
+        Intent i = new Intent(this, GameActivity1.class);
+        i.putExtra("game id", gameid);
+        i.putExtra("player", Host);
+        i.putExtra(game_config, two_phone);
+        startActivity(i);
+    }
 
+    public void joinClicked(View view)
+    {
+        EditText enterCode = findViewById(R.id.editSend);
+        Button clickJoin = findViewById(R.id.nextClick);
+        enterCode.setVisibility(View.VISIBLE);
+        clickJoin.setVisibility(View.VISIBLE);
+    }
+
+    public void clickToNext(View view)
+    {
+        EditText eCode = findViewById(R.id.editSend);
+        String gameCode = eCode.getText().toString();
+        Intent i = new Intent(this, GameActivity1.class);
+        i.putExtra("gameId", gameCode);
+        i.putExtra("player", Other);
+        i.putExtra(game_config, two_phone);
+        startActivity(i);
     }
 }
