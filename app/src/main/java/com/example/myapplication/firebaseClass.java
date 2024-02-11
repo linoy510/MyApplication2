@@ -51,7 +51,7 @@ public class firebaseClass
     {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         Random r = new Random();
-        int randIndex = r.nextInt(questionCat.length);
+        int randIndex = r.nextInt(questionCat.length - 1);
         String orderBy = questionCat[randIndex];
         firebaseFirestore.collection("questions").whereEqualTo("level", level).orderBy("a1").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

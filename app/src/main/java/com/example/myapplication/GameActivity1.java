@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.common.collect.Range;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,9 +29,9 @@ import java.util.Random;
 
 public class GameActivity1 extends AppCompatActivity implements View.OnClickListener,IGetQuestion,IGameView{
 
+
     private int counter = 0;
-    Intent i = getIntent();
-    int level = i.getIntExtra("levelSelected",1);
+
     private int countQ = 0;
 
     private final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
@@ -40,6 +41,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     Button t2;
     Button t3;
     Button t4;
+    int level =1;
     private QuestionData currentQuestion = null;
 
     OnlineGameManager onlineGameManager;
@@ -47,6 +49,9 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
+        //AppBarLayout t = new AppBarLayout(View.GONE());
+        Intent i = getIntent();
+         level = i.getIntExtra("levelSelected",1);
         setUI();
 
         onlineGameManager = new OnlineGameManager(this);

@@ -40,9 +40,8 @@ public class loginPage extends AppCompatActivity {
         EditText etPassword = findViewById(R.id.editTextTextPassword);
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
-        loginPage p = new loginPage();
         loginClass l = new loginClass();
-        l.Register(etEmail, etPassword, email, password, p);
+        l.Register(etEmail, etPassword, email, password, this);
         //mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
         }
