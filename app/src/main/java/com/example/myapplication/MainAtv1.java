@@ -168,6 +168,7 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
         i.putExtra("gameId", gameCode);
         i.putExtra("player", Other);
         i.putExtra(game_config, two_phone);
+        i.putExtra("game type", "online");
         startActivity(i);
     }
 }

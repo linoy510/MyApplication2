@@ -42,6 +42,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     Button t3;
     Button t4;
     int level =1;
+    String typeGame = "";
     private QuestionData currentQuestion = null;
 
     OnlineGameManager onlineGameManager;
@@ -50,8 +51,10 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
         //AppBarLayout t = new AppBarLayout(View.GONE());
-        Intent i = getIntent();
-         level = i.getIntExtra("levelSelected",1);
+        Intent i1 = getIntent();
+        level = i1.getIntExtra("levelSelected",1);
+        Intent i2 = getIntent();
+        typeGame = i2.getStringExtra("game type");
         setUI();
 
         onlineGameManager = new OnlineGameManager(this);
@@ -61,7 +64,10 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         f.getQuestion(level, questionCat, arr);
     }
 
-    private void setUI() {
+    private void setUI()
+    {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("GameRoom").document(fb.toString());
         t = findViewById(R.id.textView10);
         t1 = findViewById(R.id.button3);
         t2 = findViewById(R.id.button4);
