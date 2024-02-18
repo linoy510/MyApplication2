@@ -47,7 +47,7 @@ public class firebaseClass
         });
 
     }
-    public void getQuestion(int level, String[] questionCat, ArrayList<QuestionData> arr)
+    public void getQuestion(int level, String[] questionCat)
     {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         Random r = new Random();
@@ -78,13 +78,23 @@ public class firebaseClass
         });
 
 
-        //public void openGameInFirebase1()
-        //{
-
-        //}
-
         }
+    public void addQuestionToFireStore(QuestionData user)
+    {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("GameRoom").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("AddQuestion ", "onSuccess: added");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("AddQuestion ", "onfail : added " + e.getMessage());
 
+            }
+        });
+    }
 
     }
 

@@ -5,6 +5,24 @@ import java.util.Random;
 public class roomGame
 {
     private String status;
+
+    public String getQuestionStatus() {
+        return questionStatus;
+    }
+
+    public void setQuestionStatus(String questionStatus) {
+        this.questionStatus = questionStatus;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    private String questionStatus;
     private String namePlayer1;
     private String namePlayer2;
     private int currentPlayer;

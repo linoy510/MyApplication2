@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.common.collect.Range;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -34,8 +35,9 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
     private int countQ = 0;
 
-    private final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
+    public final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
     private ArrayList<QuestionData> arr = new ArrayList<>();
+
     TextView t;
     Button t1;
     Button t2;
@@ -45,35 +47,51 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     String typeGame = "";
     private QuestionData currentQuestion = null;
 
+
+    private String gameID="";
+
     OnlineGameManager onlineGameManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
         //AppBarLayout t = new AppBarLayout(View.GONE());
+
         Intent i1 = getIntent();
         level = i1.getIntExtra("levelSelected",1);
         Intent i2 = getIntent();
         typeGame = i2.getStringExtra("game type");
         setUI();
 
-        onlineGameManager = new OnlineGameManager(this);
+        if(!typeGame.equals("online"))
+        {
+            firebaseClass f = new firebaseClass();
+            f.setActivity(this);
+            f.getQuestion(level, questionCat);
+        }
+        else
+        {
+            gameID = getIntent().getStringExtra("game id");
+            FirebaseFirestore fb = FirebaseFirestore.getInstance();
+            DocumentReference docRef= fb.collection("questions").document(gameID);
+            String player = getIntent().getStringExtra("player");
+            onlineGameManager = new OnlineGameManager(this,gameID,player,level);
+            onlineGameManager.startGame();
+        }
 
-        firebaseClass f = new firebaseClass();
-        f.setActivity(this);
-        f.getQuestion(level, questionCat, arr);
+
     }
 
     private void setUI()
     {
-        FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection("GameRoom").document(fb.toString());
+
         t = findViewById(R.id.textView10);
         t1 = findViewById(R.id.button3);
         t2 = findViewById(R.id.button4);
         t3 = findViewById(R.id.button5);
         t4 = findViewById(R.id.button6);
 
+    //    t.setText(arr.get(countQ).getQuestion());
         t1.setOnClickListener(GameActivity1.this);
         t2.setOnClickListener(GameActivity1.this);
         t3.setOnClickListener(GameActivity1.this);
@@ -83,9 +101,10 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
 
 
+
+
     private void displayQuestion()
     {
-
         if(countQ < 11) {
             t.setText(arr.get(countQ).getQuestion());
             ArrayList<String> arr2 = arr.get(countQ).shuffleQuestions();

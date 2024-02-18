@@ -137,8 +137,8 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         //this action indicates that you want to send data.
         shareIntent.setType("text/plain"); // for sharing text
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello! THIS IS THE CODE FOR THE GAME: " + gameid + " JOIN THE GAME! THE CREATOR IS WAITING FOR YOU!");
-        startActivity(Intent.createChooser(shareIntent, "Share using"));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello! THIS IS THE CODE FOR THE GAME: " + gameid );
+        startActivityForResult(Intent.createChooser(shareIntent, "Share using"),1);
     }
 
     @Override
@@ -148,6 +148,8 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
         Intent i = new Intent(this, GameActivity1.class);
         i.putExtra("game id", gameid);
         i.putExtra("player", Host);
+        i.putExtra("game type", "online");
+
         i.putExtra(game_config, two_phone);
         startActivity(i);
     }
