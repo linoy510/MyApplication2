@@ -49,10 +49,10 @@ public class OnlineGameManager implements IGetQuestion {
     }
 
 
-    public void startGame() {
-
-         f = new firebaseClass();
-        f.setActivity(this);
+    public void startGame()
+    {
+        f = new firebaseClass();
+        f.setActivity(this::questionsFromFirebase);
         if(player.equals(AppConstants.Host))
             f.getQuestion(level, questionCat);
     }
