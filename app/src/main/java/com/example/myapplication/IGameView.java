@@ -1,7 +1,7 @@
 package com.example.myapplication;
 
 public interface IGameView {
-    void displayQuestion(String q,String[] answers);
+    void displayQuestion(QuestionData q);
     void showMessage(String message);
 
 }

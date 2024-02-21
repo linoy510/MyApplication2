@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.GameActivity1.countQ;
+import static com.example.myapplication.GameActivity1.currentQuestion;
 import static com.example.myapplication.GameActivity1.questionCat;
+
 
 import android.util.Log;
 
@@ -69,6 +72,10 @@ public class OnlineGameManager implements IGetQuestion {
             arr.addAll(arrResult.subList(0, arrResult.size() - 1));
 
             setNextQuestionInGameRoom();
+
+
+
+
         }
 
 
@@ -77,18 +84,27 @@ public class OnlineGameManager implements IGetQuestion {
 
     }
 
-    private void setNextQuestionInGameRoom()
+    public void setNextQuestionInGameRoom()
     {
-        String question = arr.get(2).getQuestion();
-        String A1 = arr.get(3).getA1();
-        String A2 = arr.get(4).getA2();
-        String A3 = arr.get(5).getA3();
-        String A4 = arr.get(6).getA4();
-        String subject = arr.get(0).getSubject();
+        String question = arr.get(countQ).getQuestion();
+        String A1 = arr.get(countQ).getA1();
+        String A2 = arr.get(countQ).getA2();
+        String A3 = arr.get(countQ).getA3();
+        String A4 = arr.get(countQ).getA4();
+        String subject = arr.get(countQ).getSubject();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
         firebaseClass f = new firebaseClass();
         f.addQuestionToFireStore(user);
 
+        String[] srr = {arr.get(countQ).getA1(),
+                arr.get(countQ).getA2(),
+                arr.get(countQ).getA3(),
+                arr.get(countQ).getA4()};
+        gameView.displayQuestion(arr.get(countQ));
+
+
     }
+
+
 }

@@ -33,7 +33,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
     private int counter = 0;
 
-    private int countQ = 0;
+    public static int countQ = 0;
 
     public final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
     private ArrayList<QuestionData> arr = new ArrayList<>();
@@ -45,7 +45,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     Button t4;
     int level =1;
     String typeGame = "";
-    private QuestionData currentQuestion = null;
+    public static QuestionData currentQuestion = null;
 
 
     private String gameID="";
@@ -71,7 +71,8 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         }
         else
         {
-            gameID = getIntent().getStringExtra("game id");
+            gameID = "akqLegtyDbYtyGFQyaOx";
+            //gameID = getIntent().getStringExtra("game id");
             FirebaseFirestore fb = FirebaseFirestore.getInstance();
             DocumentReference docRef= fb.collection("questions").document(gameID);
             String player = getIntent().getStringExtra("player");
@@ -136,8 +137,10 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         }
         else Toast.makeText(GameActivity1.this, "you are wrong", Toast.LENGTH_SHORT).show();
         countQ++;
-        displayQuestion();
-
+        if(!typeGame.equals("online"))
+           displayQuestion();
+        else
+            onlineGameManager.setNextQuestionInGameRoom();
     }
 
     @Override
@@ -156,15 +159,18 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void displayQuestion(String q, String[] answers)
+    public void displayQuestion(QuestionData q)
     {
-        t.setText(q);
-        currentQuestion = arr.get(countQ);
+        currentQuestion = q;//arr.get(countQ);
 
-        t1.setText(answers[0]);
-        t2.setText(answers[1]);
-        t3.setText(answers[2]);
-        t4.setText(answers[3]);
+        t.setText(currentQuestion.getQuestion());
+        ArrayList<String> arr2 = currentQuestion.shuffleQuestions();
+
+        t1.setText(arr2.get(0));
+        t2.setText(arr2.get(1));
+        t3.setText(arr2.get(2));
+        t4.setText(arr2.get(3));
+
     }
 
     @Override
