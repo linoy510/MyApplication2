@@ -53,6 +53,7 @@ public class firebaseClass
         Random r = new Random();
         int randIndex = r.nextInt(questionCat.length - 1);
         String orderBy = questionCat[randIndex];
+        String s = "חיות";
         firebaseFirestore.collection("questions").whereEqualTo("level", level).orderBy("a1").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -79,13 +80,14 @@ public class firebaseClass
 
 
         }
-    public void addQuestionToFireStore(QuestionData user)
+    public void addQuestionToFireStore(QuestionData user,String gameId)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection("GameRoom").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        fb.collection("GameRoom").document(gameId).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
+            public void onSuccess(Void unused) {
                 Log.d("AddQuestion ", "onSuccess: added");
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

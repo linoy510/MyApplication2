@@ -74,8 +74,6 @@ public class OnlineGameManager implements IGetQuestion {
             setNextQuestionInGameRoom();
 
 
-
-
         }
 
 
@@ -95,7 +93,7 @@ public class OnlineGameManager implements IGetQuestion {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
         firebaseClass f = new firebaseClass();
-        f.addQuestionToFireStore(user);
+        f.addQuestionToFireStore(user,gameId);
 
         String[] srr = {arr.get(countQ).getA1(),
                 arr.get(countQ).getA2(),

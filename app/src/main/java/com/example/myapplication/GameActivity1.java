@@ -71,8 +71,9 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         }
         else
         {
-            gameID = "akqLegtyDbYtyGFQyaOx";
-            //gameID = getIntent().getStringExtra("game id");
+
+            gameID = getIntent().getStringExtra("game id");
+            if(gameID == null) gameID = getIntent().getStringExtra("gameId");
             FirebaseFirestore fb = FirebaseFirestore.getInstance();
             DocumentReference docRef= fb.collection("questions").document(gameID);
             String player = getIntent().getStringExtra("player");
