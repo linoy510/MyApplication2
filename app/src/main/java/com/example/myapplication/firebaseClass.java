@@ -1,15 +1,20 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -94,6 +99,24 @@ public class firebaseClass
             public void onFailure(@NonNull Exception e) {
                 Log.d("AddQuestion ", "onfail : added " + e.getMessage());
 
+            }
+        });
+    }
+
+
+    public void listenForChanges(String gameId, QuestionData questionData)
+    {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("GameRoom").document(gameId).addSnapshotListener( new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if(value != null && value.exists())
+                {
+                    QuestionData g = value.toObject(QuestionData.class);
+                    //questionData = new QuestionData(g.getSubject(),g.getLevel(),g.getQuestion(),g.getA1(),g.getA2(),g.getA3(),g.getA4(),"joined",1);
+
+                }
             }
         });
     }

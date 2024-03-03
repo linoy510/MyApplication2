@@ -15,12 +15,13 @@ public class QuestionData
     private String A3;
     private String A4;
 
-
+    private String status;
+    private int currentPlayer;
     public QuestionData()
     {
 
     }
-    public QuestionData(String subject, int level, String question, String A1, String A2, String A3, String A4)
+    public QuestionData(String subject, int level, String question, String A1, String A2, String A3, String A4, String status, int currentPlayer)
     {
         this.subject = subject;
         this.level = level;
@@ -29,11 +30,17 @@ public class QuestionData
         this.A2 = A2;
         this.A3 = A3;
         this.A4 = A4;
+        this.status = status;
+        this.currentPlayer = currentPlayer;
     }
 
     public String getSubject()
     {
         return subject;
+    }
+    public String getStatus()
+    {
+        return status;
     }
     public int getLevel()
     {

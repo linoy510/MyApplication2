@@ -5,6 +5,7 @@ import static com.example.myapplication.GameActivity1.currentQuestion;
 import static com.example.myapplication.GameActivity1.questionCat;
 
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +16,7 @@ import java.util.Collections;
 public class OnlineGameManager implements IGetQuestion {
 
     IGameView gameView;
+    String status = "created";
 
     private String gameId;
 
@@ -58,6 +60,11 @@ public class OnlineGameManager implements IGetQuestion {
         f.setActivity(this::questionsFromFirebase);
         if(player.equals(AppConstants.Host))
             f.getQuestion(level, questionCat);
+        else {
+            status = "joined";
+            QuestionData d = new QuestionData();
+            f.listenForChanges(gameId, d);
+        }
     }
 
     @Override
@@ -77,8 +84,10 @@ public class OnlineGameManager implements IGetQuestion {
         }
 
 
+    }
 
-
+    public void getQuestionFromListenForChanges(QuestionData d)
+    {
 
     }
 
@@ -90,8 +99,9 @@ public class OnlineGameManager implements IGetQuestion {
         String A3 = arr.get(countQ).getA3();
         String A4 = arr.get(countQ).getA4();
         String subject = arr.get(countQ).getSubject();
+        int currentPlayer = 1;
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
+        QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4, status, currentPlayer);
         firebaseClass f = new firebaseClass();
         f.addQuestionToFireStore(user,gameId);
 
