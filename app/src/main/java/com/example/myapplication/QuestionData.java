@@ -17,6 +17,9 @@ public class QuestionData
 
     private String status;
     private int currentPlayer;
+
+
+
     public QuestionData()
     {
 
@@ -31,6 +34,17 @@ public class QuestionData
         this.A3 = A3;
         this.A4 = A4;
         this.status = status;
+        this.currentPlayer = currentPlayer;
+    }
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 

@@ -174,6 +174,11 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
     }
 
+    public void getQuestionFromListenForChanges(QuestionData d)
+    {
+
+    }
+
     @Override
     public void showMessage(String message)
     {

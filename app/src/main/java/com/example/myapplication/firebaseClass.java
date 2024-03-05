@@ -115,6 +115,17 @@ public class firebaseClass
                 {
                     QuestionData g = value.toObject(QuestionData.class);
                     //questionData = new QuestionData(g.getSubject(),g.getLevel(),g.getQuestion(),g.getA1(),g.getA2(),g.getA3(),g.getA4(),"joined",1);
+                    String A1 = g.getA1();
+                    String A2 = g.getA2();
+                    String A3 = g.getA3();
+                    String A4 = g.getA4();
+                    String q = g.getQuestion();
+                    String sub = g.getSubject();
+                    int l = g.getLevel();
+                    g.setStatus("joined");
+                    g.setCurrentPlayer(1);
+
+                    activity.getQuestionFromListenForChanges(g);
 
                 }
             }

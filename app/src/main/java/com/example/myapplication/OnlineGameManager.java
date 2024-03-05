@@ -57,13 +57,14 @@ public class OnlineGameManager implements IGetQuestion {
     public void startGame()
     {
         f = new firebaseClass();
-        f.setActivity(this::questionsFromFirebase);
+        f.setActivity(this);
         if(player.equals(AppConstants.Host))
             f.getQuestion(level, questionCat);
         else {
             status = "joined";
             QuestionData d = new QuestionData();
             f.listenForChanges(gameId, d);
+            //getQuestionFromListenForChanges(d);
         }
     }
 
@@ -86,9 +87,10 @@ public class OnlineGameManager implements IGetQuestion {
 
     }
 
+    @Override
     public void getQuestionFromListenForChanges(QuestionData d)
     {
-
+        gameView.displayQuestion(d);
     }
 
     public void setNextQuestionInGameRoom()
