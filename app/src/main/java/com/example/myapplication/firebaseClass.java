@@ -125,6 +125,9 @@ public class firebaseClass
                     g.setStatus("joined");
                     g.setCurrentPlayer(1);
 
+                    fb.collection("GameRoom").document(gameId).set(g);
+
+
                     activity.getQuestionFromListenForChanges(g);
 
                 }

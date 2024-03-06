@@ -140,8 +140,10 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         countQ++;
         if(!typeGame.equals("online"))
            displayQuestion();
+        else if(getIntent().getStringExtra("player").equals("host"))
+            onlineGameManager.setNextQuestionInGameRoom(2);
         else
-            onlineGameManager.setNextQuestionInGameRoom();
+            onlineGameManager.startGame();
     }
 
     @Override
@@ -160,7 +162,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void displayQuestion(QuestionData q)
+    public void displayQuestion(QuestionData q, int currentPlayer)
     {
         currentQuestion = q;//arr.get(countQ);
 
@@ -171,6 +173,13 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         t2.setText(arr2.get(1));
         t3.setText(arr2.get(2));
         t4.setText(arr2.get(3));
+        if(currentPlayer != 1 && getIntent().getStringExtra("player").equals("host") || currentPlayer != 2 && getIntent().getStringExtra("player").equals("other"))
+        {
+            t1.setVisibility(View.INVISIBLE);
+            t2.setVisibility(View.INVISIBLE);
+            t3.setVisibility(View.INVISIBLE);
+            t4.setVisibility(View.INVISIBLE);
+        }
 
     }
 
