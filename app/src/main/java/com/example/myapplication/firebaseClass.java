@@ -1,5 +1,8 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.GameActivity1.countQ;
+import static com.example.myapplication.GameActivity1.countQ2;
+
 import android.app.Activity;
 import android.util.Log;
 
@@ -104,7 +107,7 @@ public class firebaseClass
     }
 
 
-    public void listenForChanges(String gameId, QuestionData questionData)
+    public void listenForChanges(String gameId, String player)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         fb.collection("GameRoom").document(gameId).addSnapshotListener( new EventListener<DocumentSnapshot>() {
@@ -113,8 +116,27 @@ public class firebaseClass
 
                 if(value != null && value.exists())
                 {
+                    //We need to decide what happened...???
+                    // I am host:
+                    //      if  status is created - do nothing
+                    //      if status is joined ->
+                    //      If countQ = 0 -> game has just started
+                    //              host plays first
+                    //      else
+                    //            -> this means game is ongoing
+                    //          display
+                    //            if countQ is Odd this means it's other's turn -   disable
+                    //
+                    //  Else -> this means I am other
+                    //      If countQ = 0 -> game has just started
+                    //              display and disable
+                  //         else
+                    //          display
+                    //            -> this means game is ongoing
+                    //            if countQ is EVEN disable
+
+
                     QuestionData g = value.toObject(QuestionData.class);
-                    //questionData = new QuestionData(g.getSubject(),g.getLevel(),g.getQuestion(),g.getA1(),g.getA2(),g.getA3(),g.getA4(),"joined",1);
                     String A1 = g.getA1();
                     String A2 = g.getA2();
                     String A3 = g.getA3();
@@ -122,11 +144,13 @@ public class firebaseClass
                     String q = g.getQuestion();
                     String sub = g.getSubject();
                     int l = g.getLevel();
-                    g.setStatus("joined");
-                    g.setCurrentPlayer(1);
+                    // if created and I am host - do nothing
+                    // status should be set only if game created and I am other
+                    if(g.getStatus().equals("created"))
+                        g.setStatus("joined");
+                    g.setCurrentPlayer(countQ2);
 
                     fb.collection("GameRoom").document(gameId).set(g);
-
 
                     activity.getQuestionFromListenForChanges(g);
 

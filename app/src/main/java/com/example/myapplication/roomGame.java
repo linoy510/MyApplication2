@@ -35,6 +35,7 @@ public class roomGame
     private int level;
     public roomGame()
     {
+        this.status= "created";
 
     }
 

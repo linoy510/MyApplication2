@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import static com.example.myapplication.GameActivity1.countQ;
+import static com.example.myapplication.GameActivity1.countQ2;
+import static com.example.myapplication.GameActivity1.currentQuestion;
 import static com.example.myapplication.GameActivity1.questionCat;
 
 
@@ -56,12 +58,16 @@ public class OnlineGameManager implements IGetQuestion {
     {
         f = new firebaseClass();
         f.setActivity(this);
-        if(player.equals(AppConstants.Host))
+        if(player.equals(AppConstants.Host)) {
             f.getQuestion(level, questionCat);
+            f.listenForChanges(gameId, AppConstants.Host);
+
+        }
+        // by default cannot click untill other has joined
         else {
             status = "joined";
             QuestionData d = new QuestionData();
-            f.listenForChanges(gameId, d);
+            f.listenForChanges(gameId, AppConstants.Other);
             //getQuestionFromListenForChanges(d);
         }
     }
@@ -77,7 +83,7 @@ public class OnlineGameManager implements IGetQuestion {
 
             arr.addAll(arrResult.subList(0, arrResult.size() - 1));
 
-            setNextQuestionInGameRoom(1);
+            setNextQuestionInGameRoom(countQ2);
 
         }
 
@@ -87,7 +93,7 @@ public class OnlineGameManager implements IGetQuestion {
     @Override
     public void getQuestionFromListenForChanges(QuestionData d)
     {
-        gameView.displayQuestion(d, 1);
+        gameView.displayQuestion(d, countQ2);
     }
 
     public void setNextQuestionInGameRoom(int currentPlayer)
@@ -107,7 +113,7 @@ public class OnlineGameManager implements IGetQuestion {
                 arr.get(countQ).getA2(),
                 arr.get(countQ).getA3(),
                 arr.get(countQ).getA4()};
-        gameView.displayQuestion(arr.get(countQ), currentPlayer);
+        gameView.displayQuestion(arr.get(countQ), countQ2);
 
 
     }
