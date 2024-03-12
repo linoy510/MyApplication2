@@ -146,9 +146,19 @@ public class firebaseClass
                     int l = g.getLevel();
                     // if created and I am host - do nothing
                     // status should be set only if game created and I am other
-                    if(g.getStatus().equals("created"))
+                    if(player.equals("other") || countQ2 != -1)
                         g.setStatus("joined");
-                    g.setCurrentPlayer(countQ2);
+                    else
+                        g.setStatus("created");
+                    //
+                    if(!g.getStatus().equals("created"))
+                    {
+                        countQ2 = g.getCurrentPlayer() + 1;
+                        g.setCurrentPlayer(countQ2);
+                    }
+                    else
+                        g.setCurrentPlayer(countQ2);
+
 
                     fb.collection("GameRoom").document(gameId).set(g);
 
