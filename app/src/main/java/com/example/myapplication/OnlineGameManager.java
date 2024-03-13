@@ -9,6 +9,7 @@ import static com.example.myapplication.GameActivity1.questionCat;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,7 +84,7 @@ public class OnlineGameManager implements IGetQuestion {
 
             arr.addAll(arrResult.subList(0, arrResult.size() - 1));
 
-            setNextQuestionInGameRoom(countQ2);
+            setNextQuestionInGameRoom();
 
         }
 
@@ -94,9 +95,12 @@ public class OnlineGameManager implements IGetQuestion {
     public void getQuestionFromListenForChanges(QuestionData d)
     {
         gameView.displayQuestion(d, countQ2);
+        QuestionData user = new QuestionData();
+        firebaseClass f = new firebaseClass();
+        f.addQuestionToFireStore(user, gameId);
     }
 
-    public void setNextQuestionInGameRoom(int currentPlayer)
+    public void setNextQuestionInGameRoom()
     {
         String question = arr.get(countQ).getQuestion();
         String A1 = arr.get(countQ).getA1();
@@ -105,7 +109,7 @@ public class OnlineGameManager implements IGetQuestion {
         String A4 = arr.get(countQ).getA4();
         String subject = arr.get(countQ).getSubject();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4, status, currentPlayer);
+        QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
         firebaseClass f = new firebaseClass();
         f.addQuestionToFireStore(user,gameId);
 

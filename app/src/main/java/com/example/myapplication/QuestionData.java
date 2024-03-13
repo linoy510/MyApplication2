@@ -15,8 +15,6 @@ public class QuestionData
     private String A3;
     private String A4;
 
-    private String status;
-    private int currentPlayer;
 
 
 
@@ -24,7 +22,7 @@ public class QuestionData
     {
 
     }
-    public QuestionData(String subject, int level, String question, String A1, String A2, String A3, String A4, String status, int currentPlayer)
+    public QuestionData(String subject, int level, String question, String A1, String A2, String A3, String A4)
     {
         this.subject = subject;
         this.level = level;
@@ -33,28 +31,14 @@ public class QuestionData
         this.A2 = A2;
         this.A3 = A3;
         this.A4 = A4;
-        this.status = status;
-        this.currentPlayer = currentPlayer;
-    }
-    public int getCurrentPlayer() {
-        return currentPlayer;
+
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
-    public void setCurrentPlayer(int currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
 
     public String getSubject()
     {
         return subject;
-    }
-    public String getStatus()
-    {
-        return status;
     }
     public int getLevel()
     {
@@ -120,8 +104,7 @@ public class QuestionData
         ArrayList<String> arr = new ArrayList<>();
         arr.add(A1);arr.add(A2);arr.add(A3);arr.add(A4);
 
-        Collections.shuffle(arr);
-        return arr;
+        Collections.shuffle(arr);return arr;
 
     }
 

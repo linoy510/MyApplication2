@@ -98,7 +98,7 @@ public class MainActivityPublish extends AppCompatActivity implements AdapterVie
             String A3 = textWrongAnswer2.getText().toString();
             String A4 = textWrongAnswer3.getText().toString();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4,null, 0);
+            QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
             firebaseClass f = new firebaseClass();
             f.addUserToFireStore(user);
         }

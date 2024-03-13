@@ -141,7 +141,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         if(!typeGame.equals("online"))
            displayQuestion();
         else if(getIntent().getStringExtra("player").equals("host"))
-            onlineGameManager.setNextQuestionInGameRoom(2);
+            onlineGameManager.setNextQuestionInGameRoom();
         else
             onlineGameManager.startGame();
     }

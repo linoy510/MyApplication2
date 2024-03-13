@@ -29,6 +29,7 @@ public class firebaseClass
 {
 
     private IGetQuestion activity;
+    private roomGame g;
 
     public firebaseClass()
     {
@@ -91,7 +92,20 @@ public class firebaseClass
     public void addQuestionToFireStore(QuestionData user,String gameId)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection("GameRoom").document(gameId).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+        if(g==null)
+         return;
+        if(g.getCurrentPlayer() % 2 == 0)
+        {
+        g.setA1(user.getA1());
+        g.setA2(user.getA2());
+        g.setA3(user.getA3());
+        g.setA4(user.getA4());
+        g.setQuestion(user.getQuestion());
+        g.setLevel(user.getLevel());
+        g.setSubject(user.getSubject());
+
+       }
+        fb.collection("GameRoom").document(gameId).set(g).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Log.d("AddQuestion ", "onSuccess: added");
@@ -136,7 +150,8 @@ public class firebaseClass
                     //            if countQ is EVEN disable
 
 
-                    QuestionData g = value.toObject(QuestionData.class);
+
+                    g = value.toObject(roomGame.class);
                     String A1 = g.getA1();
                     String A2 = g.getA2();
                     String A3 = g.getA3();
@@ -144,9 +159,54 @@ public class firebaseClass
                     String q = g.getQuestion();
                     String sub = g.getSubject();
                     int l = g.getLevel();
+
+                    QuestionData qd = new QuestionData(sub,l,q,A1,A2,A3,A4);
+
+                    // if I am host
+                    if( player.equals(AppConstants.Host)) {
+
+                        if (g.getStatus().equals("created"))
+                        {
+                            addQuestionToFireStore(qd,gameId);
+                            return;
+                        }
+
+
+                        // this means status is JOINED
+                        if(countQ2==-1)// this means game started, host plays first
+                        {
+                            countQ2 = g.getCurrentPlayer() + 1;
+                        }g.setCurrentPlayer(countQ2);
+                        activity.getQuestionFromListenForChanges(qd);
+                        return;
+                        // this means that CountQ2 is not zero
+                        // game is ongoing
+
+                    }
+                    else
+                    {
+                        if(g.getStatus().equals("created"))
+                        {
+                            g.setStatus("joined");
+                            activity.getQuestionFromListenForChanges(qd);
+                            countQ2 = g.getCurrentPlayer() + 1;
+                            g.setCurrentPlayer(countQ2);
+                            return;
+                        }
+                        countQ2 = g.getCurrentPlayer() + 1;
+                        g.setCurrentPlayer(countQ2);
+                        activity.getQuestionFromListenForChanges(qd);
+                        return;
+
+
+                    }
+
+                  //  QuestionData g = value.toObject(QuestionData.class);
+
                     // if created and I am host - do nothing
+
                     // status should be set only if game created and I am other
-                    if(player.equals("other") || countQ2 != -1)
+                    /*if(player.equals("other") || countQ2 != -1)
                         g.setStatus("joined");
                     else
                         g.setStatus("created");
@@ -157,12 +217,11 @@ public class firebaseClass
                         g.setCurrentPlayer(countQ2);
                     }
                     else
-                        g.setCurrentPlayer(countQ2);
+                        g.setCurrentPlayer(countQ2);*/
 
 
-                    fb.collection("GameRoom").document(gameId).set(g);
+                    //fb.collection("GameRoom").document(gameId).set(g);
 
-                    activity.getQuestionFromListenForChanges(g);
 
                 }
             }
