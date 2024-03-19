@@ -92,20 +92,21 @@ public class firebaseClass
     public void addQuestionToFireStore(QuestionData user,String gameId)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        if(g==null)
-         return;
-        if(g.getCurrentPlayer() % 2 == 0)
+        roomGame roomGame = new roomGame();
+
+        if(countQ2 % 2 == 0 || countQ2 == -1)
         {
-        g.setA1(user.getA1());
-        g.setA2(user.getA2());
-        g.setA3(user.getA3());
-        g.setA4(user.getA4());
-        g.setQuestion(user.getQuestion());
-        g.setLevel(user.getLevel());
-        g.setSubject(user.getSubject());
+
+        roomGame.setA1(user.getA1());
+        roomGame.setA2(user.getA2());
+        roomGame.setA3(user.getA3());
+        roomGame.setA4(user.getA4());
+        roomGame.setQuestion(user.getQuestion());
+        roomGame.setLevel(user.getLevel());
+        roomGame.setSubject(user.getSubject());
 
        }
-        fb.collection("GameRoom").document(gameId).set(g).addOnSuccessListener(new OnSuccessListener<Void>() {
+        fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Log.d("AddQuestion ", "onSuccess: added");
@@ -176,7 +177,8 @@ public class firebaseClass
                         if(countQ2==-1)// this means game started, host plays first
                         {
                             countQ2 = g.getCurrentPlayer() + 1;
-                        }g.setCurrentPlayer(countQ2);
+                        }
+                        g.setCurrentPlayer(countQ2);
                         activity.getQuestionFromListenForChanges(qd);
                         return;
                         // this means that CountQ2 is not zero
@@ -188,13 +190,35 @@ public class firebaseClass
                         if(g.getStatus().equals("created"))
                         {
                             g.setStatus("joined");
-                            activity.getQuestionFromListenForChanges(qd);
-                            countQ2 = g.getCurrentPlayer() + 1;
-                            g.setCurrentPlayer(countQ2);
+                      //      countQ2 = g.getCurrentPlayer() + 1;
+                        //    g.setCurrentPlayer(countQ2);
+
+
+                            fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    activity.getQuestionFromListenForChanges(qd);
+
+                                }
+                            });
+
+
                             return;
                         }
                         countQ2 = g.getCurrentPlayer() + 1;
                         g.setCurrentPlayer(countQ2);
+
+                 /*       fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                activity.getQuestionFromListenForChanges(qd);
+
+                            }
+                        });
+
+                  */
+
+
                         activity.getQuestionFromListenForChanges(qd);
                         return;
 

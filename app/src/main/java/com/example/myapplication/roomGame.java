@@ -36,7 +36,7 @@ public class roomGame
     public roomGame()
     {
         this.status= "created";
-
+        this.currentPlayer = -1;
     }
 
     public int getLevel() {

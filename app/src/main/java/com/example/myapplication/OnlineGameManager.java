@@ -54,6 +54,8 @@ public class OnlineGameManager implements IGetQuestion {
 
     }
 
+    private boolean gameStarted = false;
+
 
     public void startGame()
     {
@@ -61,7 +63,7 @@ public class OnlineGameManager implements IGetQuestion {
         f.setActivity(this);
         if(player.equals(AppConstants.Host)) {
             f.getQuestion(level, questionCat);
-            f.listenForChanges(gameId, AppConstants.Host);
+
 
         }
         // by default cannot click untill other has joined
@@ -86,6 +88,13 @@ public class OnlineGameManager implements IGetQuestion {
 
             setNextQuestionInGameRoom();
 
+            if(!gameStarted)
+            {
+                gameStarted=true;
+                f.listenForChanges(gameId, AppConstants.Host);
+
+            }
+
         }
 
 
@@ -96,8 +105,8 @@ public class OnlineGameManager implements IGetQuestion {
     {
         gameView.displayQuestion(d, countQ2);
         QuestionData user = new QuestionData();
-        firebaseClass f = new firebaseClass();
-        f.addQuestionToFireStore(user, gameId);
+       // firebaseClass f = new firebaseClass();
+        //f.addQuestionToFireStore(user, gameId);
     }
 
     public void setNextQuestionInGameRoom()
@@ -118,6 +127,8 @@ public class OnlineGameManager implements IGetQuestion {
                 arr.get(countQ).getA3(),
                 arr.get(countQ).getA4()};
         gameView.displayQuestion(arr.get(countQ), countQ2);
+
+
 
 
     }
