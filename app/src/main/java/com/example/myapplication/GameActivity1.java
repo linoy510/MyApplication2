@@ -195,9 +195,11 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
             t2.setVisibility(View.INVISIBLE);
             t3.setVisibility(View.INVISIBLE);
             t4.setVisibility(View.INVISIBLE);
+
             /*firebaseClass fb = new firebaseClass();
               fb.addQuestionToFireStore(q, gameID);*/
         }
+
     }
 
 

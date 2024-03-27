@@ -178,7 +178,10 @@ public class firebaseClass
                         {
                             countQ2 = g.getCurrentPlayer() + 1;
                         }
+                        else
+                            countQ2 = g.getCurrentPlayer() + 1;
                         g.setCurrentPlayer(countQ2);
+
                         activity.getQuestionFromListenForChanges(qd);
                         return;
                         // this means that CountQ2 is not zero
