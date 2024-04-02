@@ -130,20 +130,32 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     {
         Button b = (Button)v;
         String s = b.getText().toString();
-
+        boolean check = false;
         if(currentQuestion.checkAnswer(s))
         {
             Toast.makeText(GameActivity1.this, "you are right!", Toast.LENGTH_SHORT).show();
             counter++;
+            check = true;
         }
         else Toast.makeText(GameActivity1.this, "you are wrong", Toast.LENGTH_SHORT).show();
         countQ++;
         if(!typeGame.equals("online"))
            displayQuestion();
-        else if(getIntent().getStringExtra("player").equals("host"))
-            onlineGameManager.setNextQuestionInGameRoom();
-        else
-            onlineGameManager.startGame();
+
+        else //online
+        // make sure other calls sgart game only once
+        // other pudate other anwer and countQ2
+        {
+            if(getIntent().getStringExtra("player").equals("host"))
+                onlineGameManager.setNextQuestionInGameRoom();
+            else // other
+            {
+                onlineGameManager.startGame();
+                onlineGameManager.setOtherResult(check);
+
+
+            }
+        }
     }
 
     @Override
@@ -172,8 +184,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         t2.setText(arr2.get(1));
         t3.setText(arr2.get(2));
         t4.setText(arr2.get(3));
-        if(currentPlayer != -1) {
-            //KEEP IT SIMPLE :-)
+
             if (currentPlayer % 2 != 0 && getIntent().getStringExtra("player").equals("host") || currentPlayer % 2 == 0 && getIntent().getStringExtra("player").equals("other")) {
                 t1.setVisibility(View.INVISIBLE);
                 t2.setVisibility(View.INVISIBLE);
@@ -187,18 +198,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
                 t2.setVisibility(View.VISIBLE);
                 t3.setVisibility(View.VISIBLE);
                 t4.setVisibility(View.VISIBLE);
-            }
-        }
-        else
-        {
-            t1.setVisibility(View.INVISIBLE);
-            t2.setVisibility(View.INVISIBLE);
-            t3.setVisibility(View.INVISIBLE);
-            t4.setVisibility(View.INVISIBLE);
-
-            /*firebaseClass fb = new firebaseClass();
-              fb.addQuestionToFireStore(q, gameID);*/
-        }
+           }
 
     }
 

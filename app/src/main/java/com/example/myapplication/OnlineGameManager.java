@@ -100,6 +100,17 @@ public class OnlineGameManager implements IGetQuestion {
 
     }
 
+    public void setOtherResult(boolean check)
+    {
+        roomGame g = new roomGame();
+        countQ2 = g.getCurrentPlayer() + 1;
+        g.setCurrentPlayer(countQ2);
+        if(check)
+         g.setQuestionStatus("right");
+        else g.setQuestionStatus("wrong");
+        QuestionData d = new QuestionData();
+        f.listenForChanges(gameId, AppConstants.Other);
+    }
     @Override
     public void getQuestionFromListenForChanges(QuestionData d)
     {

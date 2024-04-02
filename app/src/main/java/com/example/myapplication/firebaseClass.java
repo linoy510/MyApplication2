@@ -89,7 +89,7 @@ public class firebaseClass
 
 
         }
-    public void addQuestionToFireStore(QuestionData user,String gameId)
+    public void addQuestionToFireStore(QuestionData qd,String gameId)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         roomGame roomGame = new roomGame();
@@ -97,13 +97,13 @@ public class firebaseClass
         if(countQ2 % 2 == 0 || countQ2 == -1)
         {
 
-        roomGame.setA1(user.getA1());
-        roomGame.setA2(user.getA2());
-        roomGame.setA3(user.getA3());
-        roomGame.setA4(user.getA4());
-        roomGame.setQuestion(user.getQuestion());
-        roomGame.setLevel(user.getLevel());
-        roomGame.setSubject(user.getSubject());
+        roomGame.setA1(qd.getA1());
+        roomGame.setA2(qd.getA2());
+        roomGame.setA3(qd.getA3());
+        roomGame.setA4(qd.getA4());
+        roomGame.setQuestion(qd.getQuestion());
+        roomGame.setLevel(qd.getLevel());
+        roomGame.setSubject(qd.getSubject());
 
        }
         fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -160,7 +160,7 @@ public class firebaseClass
                     String q = g.getQuestion();
                     String sub = g.getSubject();
                     int l = g.getLevel();
-
+                    countQ2 = g.getCurrentPlayer();
                     QuestionData qd = new QuestionData(sub,l,q,A1,A2,A3,A4);
 
                     // if I am host
@@ -208,7 +208,7 @@ public class firebaseClass
 
                             return;
                         }
-                        countQ2 = g.getCurrentPlayer() + 1;
+
                         g.setCurrentPlayer(countQ2);
 
                  /*       fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -221,8 +221,7 @@ public class firebaseClass
 
                   */
 
-
-                        activity.getQuestionFromListenForChanges(qd);
+                        //activity.getQuestionFromListenForChanges(qd);
                         return;
 
 
