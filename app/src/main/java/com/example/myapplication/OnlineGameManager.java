@@ -100,16 +100,25 @@ public class OnlineGameManager implements IGetQuestion {
 
     }
 
-    public void setOtherResult(boolean check)
+    public void setOtherResult(boolean check, QuestionData qd)
     {
+        //QuestionData d = new QuestionData();
         roomGame g = new roomGame();
-        countQ2 = g.getCurrentPlayer() + 1;
         g.setCurrentPlayer(countQ2);
+        g.setA1(qd.getA1());
+        g.setA2(qd.getA2());
+        g.setA3(qd.getA3());
+        g.setA4(qd.getA4());
+        g.setQuestion(qd.getQuestion());
+        g.setLevel(qd.getLevel());
+        g.setSubject(qd.getSubject());
+        g.setStatus("joined");
         if(check)
          g.setQuestionStatus("right");
         else g.setQuestionStatus("wrong");
-        QuestionData d = new QuestionData();
-        f.listenForChanges(gameId, AppConstants.Other);
+
+        f.updateResult(g, gameId, countQ2);
+        //f.listenForChanges(gameId, AppConstants.Other);
     }
     @Override
     public void getQuestionFromListenForChanges(QuestionData d)
@@ -129,9 +138,9 @@ public class OnlineGameManager implements IGetQuestion {
         String A4 = arr.get(countQ).getA4();
         String subject = arr.get(countQ).getSubject();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        QuestionData user = new QuestionData(subject, level, question, A1, A2, A3, A4);
+        QuestionData user = new QuestionData(subject, level, question, A1, A2, A3,A4);
         firebaseClass f = new firebaseClass();
-        f.addQuestionToFireStore(user,gameId);
+        f.addQuestionToFireStore(user,gameId, countQ2);
 
         String[] srr = {arr.get(countQ).getA1(),
                 arr.get(countQ).getA2(),

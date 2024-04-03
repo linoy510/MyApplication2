@@ -89,13 +89,13 @@ public class firebaseClass
 
 
         }
-    public void addQuestionToFireStore(QuestionData qd,String gameId)
+    public void addQuestionToFireStore(QuestionData qd,String gameId, int current)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         roomGame roomGame = new roomGame();
 
-        if(countQ2 % 2 == 0 || countQ2 == -1)
-        {
+        //if(countQ2 % 2 == 0 || countQ2 == -1)
+
 
         roomGame.setA1(qd.getA1());
         roomGame.setA2(qd.getA2());
@@ -104,8 +104,8 @@ public class firebaseClass
         roomGame.setQuestion(qd.getQuestion());
         roomGame.setLevel(qd.getLevel());
         roomGame.setSubject(qd.getSubject());
+        roomGame.setCurrentPlayer(current);
 
-       }
         fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -116,6 +116,35 @@ public class firebaseClass
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("AddQuestion ", "onfail : added " + e.getMessage());
+
+            }
+        });
+    }
+
+    public void updateResult(roomGame g,String gameId, int current)
+    {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        roomGame roomGame = new roomGame();
+
+        roomGame.setA1(g.getA1());
+        roomGame.setA2(g.getA2());
+        roomGame.setA3(g.getA3());
+        roomGame.setA4(g.getA4());
+        roomGame.setQuestion(g.getQuestion());
+        roomGame.setLevel(g.getLevel());
+        roomGame.setSubject(g.getSubject());
+        roomGame.setCurrentPlayer(current);
+
+        fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d("AddQuestion ", "onSuccess: success add");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("AddQuestion ", "onfail : fail add " + e.getMessage());
 
             }
         });
@@ -160,7 +189,9 @@ public class firebaseClass
                     String q = g.getQuestion();
                     String sub = g.getSubject();
                     int l = g.getLevel();
+                    String status = g.getStatus();
                     countQ2 = g.getCurrentPlayer();
+                    //g.setCurrentPlayer(countQ2 + 1);
                     QuestionData qd = new QuestionData(sub,l,q,A1,A2,A3,A4);
 
                     // if I am host
@@ -168,18 +199,13 @@ public class firebaseClass
 
                         if (g.getStatus().equals("created"))
                         {
-                            addQuestionToFireStore(qd,gameId);
+                            addQuestionToFireStore(qd,gameId,countQ2);
                             return;
                         }
 
 
                         // this means status is JOINED
-                        if(countQ2==-1)// this means game started, host plays first
-                        {
-                            countQ2 = g.getCurrentPlayer() + 1;
-                        }
-                        else
-                            countQ2 = g.getCurrentPlayer() + 1;
+                        countQ2 = g.getCurrentPlayer() + 1;
                         g.setCurrentPlayer(countQ2);
 
                         activity.getQuestionFromListenForChanges(qd);
@@ -190,7 +216,7 @@ public class firebaseClass
                     }
                     else
                     {
-                        if(g.getStatus().equals("created"))
+                        if(status.equals("created"))
                         {
                             g.setStatus("joined");
                       //      countQ2 = g.getCurrentPlayer() + 1;
@@ -208,7 +234,7 @@ public class firebaseClass
 
                             return;
                         }
-
+                        countQ2++;
                         g.setCurrentPlayer(countQ2);
 
                  /*       fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>() {

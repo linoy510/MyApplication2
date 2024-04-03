@@ -32,7 +32,6 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
 
 
     private int counter = 0;
-
     public static int countQ = 0;
     public static int countQ2 = -1;
     public final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
@@ -46,7 +45,6 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     int level =1;
     String typeGame = "";
     public static QuestionData currentQuestion = null;
-
 
     private String gameID="";
 
@@ -150,8 +148,8 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
                 onlineGameManager.setNextQuestionInGameRoom();
             else // other
             {
-                onlineGameManager.startGame();
-                onlineGameManager.setOtherResult(check);
+                //onlineGameManager.startGame();
+                onlineGameManager.setOtherResult(check, currentQuestion);
 
 
             }
@@ -176,7 +174,6 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     @Override
     public void displayQuestion(QuestionData q, int currentPlayer) {
         currentQuestion = q;//arr.get(countQ);
-
         t.setText(currentQuestion.getQuestion());
         ArrayList<String> arr2 = currentQuestion.shuffleQuestions();
 
