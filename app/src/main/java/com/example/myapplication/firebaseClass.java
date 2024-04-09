@@ -189,6 +189,7 @@ public class firebaseClass
                     String q = g.getQuestion();
                     String sub = g.getSubject();
                     int l = g.getLevel();
+                    boolean statusGame = g.getQuestionStatus();
                     String status = g.getStatus();
                     countQ2 = g.getCurrentPlayer();
                     //g.setCurrentPlayer(countQ2 + 1);

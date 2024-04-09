@@ -114,8 +114,8 @@ public class OnlineGameManager implements IGetQuestion {
         g.setSubject(qd.getSubject());
         g.setStatus("joined");
         if(check)
-         g.setQuestionStatus("right");
-        else g.setQuestionStatus("wrong");
+         g.setQuestionStatus(true);
+        else g.setQuestionStatus(false);
 
         f.updateResult(g, gameId, countQ2);
         //f.listenForChanges(gameId, AppConstants.Other);
@@ -123,14 +123,15 @@ public class OnlineGameManager implements IGetQuestion {
     @Override
     public void getQuestionFromListenForChanges(QuestionData d)
     {
+        /*if(player.equals(AppConstants.Host))
+            setNextQuestionInGameRoom();*/
         gameView.displayQuestion(d, countQ2);
         QuestionData user = new QuestionData();
-       // firebaseClass f = new firebaseClass();
-        //f.addQuestionToFireStore(user, gameId);
     }
 
     public void setNextQuestionInGameRoom()
     {
+
         String question = arr.get(countQ).getQuestion();
         String A1 = arr.get(countQ).getA1();
         String A2 = arr.get(countQ).getA2();

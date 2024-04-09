@@ -132,7 +132,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         if(currentQuestion.checkAnswer(s))
         {
             Toast.makeText(GameActivity1.this, "you are right!", Toast.LENGTH_SHORT).show();
-            counter++;
+            countQ++;
             check = true;
         }
         else Toast.makeText(GameActivity1.this, "you are wrong", Toast.LENGTH_SHORT).show();
@@ -150,7 +150,6 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
             {
                 //onlineGameManager.startGame();
                 onlineGameManager.setOtherResult(check, currentQuestion);
-
 
             }
         }
