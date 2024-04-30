@@ -193,6 +193,11 @@ public class firebaseClass
                     String status = g.getStatus();
                     countQ2 = g.getCurrentPlayer();
                     //g.setCurrentPlayer(countQ2 + 1);
+                    //if(question wrong) enable button
+                    if(g.getQuestionStatus() == false && g.getCurrentPlayer() > 0)
+                    {
+                       // activity.getQuestionFromListenForChanges();
+                    }
                     QuestionData qd = new QuestionData(sub,l,q,A1,A2,A3,A4);
 
                     // if I am host
@@ -203,6 +208,16 @@ public class firebaseClass
                             addQuestionToFireStore(qd,gameId,countQ2);
                             return;
                         }
+
+
+                        // I played and I am right
+                        // other played and he is right
+                        // this means set next question in firebase!
+
+                        // if I am host and other answered wrong - enable answers
+                        // If I am other and host answered wrong - enable answers
+                        //
+
 
 
                         // this means status is JOINED
@@ -259,22 +274,6 @@ public class firebaseClass
                     // if created and I am host - do nothing
 
                     // status should be set only if game created and I am other
-                    /*if(player.equals("other") || countQ2 != -1)
-                        g.setStatus("joined");
-                    else
-                        g.setStatus("created");
-                    //
-                    if(!g.getStatus().equals("created"))
-                    {
-                        countQ2 = g.getCurrentPlayer() + 1;
-                        g.setCurrentPlayer(countQ2);
-                    }
-                    else
-                        g.setCurrentPlayer(countQ2);*/
-
-
-                    //fb.collection("GameRoom").document(gameId).set(g);
-
 
                 }
             }

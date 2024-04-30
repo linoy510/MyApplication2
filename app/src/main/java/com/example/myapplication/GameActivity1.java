@@ -145,7 +145,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         // other pudate other anwer and countQ2
         {
             if(getIntent().getStringExtra("player").equals("host"))
-                onlineGameManager.setNextQuestionInGameRoom();
+                onlineGameManager.setNextQuestionInGameRoom(check);
             else // other
             {
                 //onlineGameManager.startGame();

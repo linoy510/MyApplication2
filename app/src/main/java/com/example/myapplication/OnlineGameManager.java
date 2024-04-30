@@ -86,7 +86,7 @@ public class OnlineGameManager implements IGetQuestion {
 
             arr.addAll(arrResult.subList(0, arrResult.size() - 1));
 
-            setNextQuestionInGameRoom();
+            setNextQuestionInGameRoom(true);
 
             if(!gameStarted)
             {
@@ -125,13 +125,16 @@ public class OnlineGameManager implements IGetQuestion {
     {
         /*if(player.equals(AppConstants.Host))
             setNextQuestionInGameRoom();*/
-        gameView.displayQuestion(d, countQ2);
-        QuestionData user = new QuestionData();
+        if(!player.equals(AppConstants.Host) || countQ2 == -1 || countQ2 == 0)
+            gameView.displayQuestion(d, countQ2);
+        else
+            nextQuestionInGameRoom();
     }
 
-    public void setNextQuestionInGameRoom()
+    public void setNextQuestionInGameRoom(boolean check)
     {
-
+        if(check == false)
+            countQ--;
         String question = arr.get(countQ).getQuestion();
         String A1 = arr.get(countQ).getA1();
         String A2 = arr.get(countQ).getA2();
@@ -148,11 +151,28 @@ public class OnlineGameManager implements IGetQuestion {
                 arr.get(countQ).getA3(),
                 arr.get(countQ).getA4()};
         gameView.displayQuestion(arr.get(countQ), countQ2);
-
-
+        if(check == false)
+            countQ++;
 
 
     }
 
+    public void nextQuestionInGameRoom()
+    {
+        countQ++;
+        String question = arr.get(countQ).getQuestion();
+        String A1 = arr.get(countQ).getA1();
+        String A2 = arr.get(countQ).getA2();
+        String A3 = arr.get(countQ).getA3();
+        String A4 = arr.get(countQ).getA4();
+        String subject = arr.get(countQ).getSubject();
+
+        String[] srr = {arr.get(countQ).getA1(),
+                arr.get(countQ).getA2(),
+                arr.get(countQ).getA3(),
+                arr.get(countQ).getA4()};
+        gameView.displayQuestion(arr.get(countQ), countQ2);
+
+    }
 
 }
