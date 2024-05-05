@@ -34,6 +34,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     private int counter = 0;
     public static int countQ = 0;
     public static int countQ2 = -1;
+    public static int countWrong = 0;
     public final static String[] questionCat = {"A1","A2","A3","A4","level","question","subject"};
     private ArrayList<QuestionData> arr = new ArrayList<>();
 
@@ -136,7 +137,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
             check = true;
         }
         else Toast.makeText(GameActivity1.this, "you are wrong", Toast.LENGTH_SHORT).show();
-        countQ++;
+        //countQ++;
         if(!typeGame.equals("online"))
            displayQuestion();
 
@@ -186,7 +187,12 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
                 t2.setVisibility(View.INVISIBLE);
                 t3.setVisibility(View.INVISIBLE);
                 t4.setVisibility(View.INVISIBLE);
-                /*firebaseClass fb = new firebaseClass();
+               /* if(currentPlayer % 2 != 0 && getIntent().getStringExtra("player").equals("host") && countQ2 != 0)
+                {
+                    countQ++;
+                    onlineGameManager.nextQuestionInGameRoom();
+                }
+                firebaseClass fb = new firebaseClass();
                 fb.addQuestionToFireStore(q, gameID);*/
             } else
             {

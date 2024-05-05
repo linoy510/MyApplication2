@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import static com.example.myapplication.GameActivity1.countQ;
 import static com.example.myapplication.GameActivity1.countQ2;
+import static com.example.myapplication.GameActivity1.countWrong;
 import static com.example.myapplication.GameActivity1.currentQuestion;
 import static com.example.myapplication.GameActivity1.questionCat;
 
@@ -25,7 +26,8 @@ public class OnlineGameManager implements IGetQuestion {
 
     private String player;
 
-    private ArrayList<QuestionData> arr = new ArrayList<>();
+
+    public static ArrayList<QuestionData> arr = new ArrayList<>();
 
     firebaseClass f;
 
@@ -43,6 +45,8 @@ public class OnlineGameManager implements IGetQuestion {
         this.player = player;
         this.level = level;
     //    this.arr = arr;
+        f =    new firebaseClass();
+
     }
 
 
@@ -104,6 +108,7 @@ public class OnlineGameManager implements IGetQuestion {
     {
         //QuestionData d = new QuestionData();
         roomGame g = new roomGame();
+
         g.setCurrentPlayer(countQ2);
         g.setA1(qd.getA1());
         g.setA2(qd.getA2());
@@ -125,16 +130,23 @@ public class OnlineGameManager implements IGetQuestion {
     {
         /*if(player.equals(AppConstants.Host))
             setNextQuestionInGameRoom();*/
-        if(!player.equals(AppConstants.Host) || countQ2 == -1 || countQ2 == 0)
+        //if(!player.equals(AppConstants.Host) || countQ2 == -1 || countQ2 == 0)
+        if(!player.equals(AppConstants.Host))
             gameView.displayQuestion(d, countQ2);
         else
-            nextQuestionInGameRoom();
+            gameView.displayQuestion(d, countQ2);
+        /*else
+            nextQuestionInGameRoom();*/
     }
 
     public void setNextQuestionInGameRoom(boolean check)
     {
-        if(check == false)
+        /*if(check == false)
+        {
             countQ--;
+        } if(countQ2 % 2 != 0 && countQ2 != -1)
+            countQ++;*/
+
         String question = arr.get(countQ).getQuestion();
         String A1 = arr.get(countQ).getA1();
         String A2 = arr.get(countQ).getA2();
@@ -143,7 +155,6 @@ public class OnlineGameManager implements IGetQuestion {
         String subject = arr.get(countQ).getSubject();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         QuestionData user = new QuestionData(subject, level, question, A1, A2, A3,A4);
-        firebaseClass f = new firebaseClass();
         f.addQuestionToFireStore(user,gameId, countQ2);
 
         String[] srr = {arr.get(countQ).getA1(),
@@ -151,28 +162,10 @@ public class OnlineGameManager implements IGetQuestion {
                 arr.get(countQ).getA3(),
                 arr.get(countQ).getA4()};
         gameView.displayQuestion(arr.get(countQ), countQ2);
-        if(check == false)
-            countQ++;
-
-
-    }
-
-    public void nextQuestionInGameRoom()
-    {
-        countQ++;
-        String question = arr.get(countQ).getQuestion();
-        String A1 = arr.get(countQ).getA1();
-        String A2 = arr.get(countQ).getA2();
-        String A3 = arr.get(countQ).getA3();
-        String A4 = arr.get(countQ).getA4();
-        String subject = arr.get(countQ).getSubject();
-
-        String[] srr = {arr.get(countQ).getA1(),
-                arr.get(countQ).getA2(),
-                arr.get(countQ).getA3(),
-                arr.get(countQ).getA4()};
-        gameView.displayQuestion(arr.get(countQ), countQ2);
+        /*if(check == false)
+            countQ++;*/
 
     }
+
 
 }

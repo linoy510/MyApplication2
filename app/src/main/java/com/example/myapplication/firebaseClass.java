@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import static com.example.myapplication.GameActivity1.countQ;
 import static com.example.myapplication.GameActivity1.countQ2;
+import static com.example.myapplication.OnlineGameManager.arr;
 
 import android.app.Activity;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -189,15 +191,11 @@ public class firebaseClass
                     String q = g.getQuestion();
                     String sub = g.getSubject();
                     int l = g.getLevel();
-                    boolean statusGame = g.getQuestionStatus();
+                    boolean questionStatus = g.getQuestionStatus();
                     String status = g.getStatus();
                     countQ2 = g.getCurrentPlayer();
                     //g.setCurrentPlayer(countQ2 + 1);
                     //if(question wrong) enable button
-                    if(g.getQuestionStatus() == false && g.getCurrentPlayer() > 0)
-                    {
-                       // activity.getQuestionFromListenForChanges();
-                    }
                     QuestionData qd = new QuestionData(sub,l,q,A1,A2,A3,A4);
 
                     // if I am host
@@ -208,6 +206,28 @@ public class firebaseClass
                             addQuestionToFireStore(qd,gameId,countQ2);
                             return;
                         }
+
+                        // if it wad other turn and he answered correct
+                        // set next question,, countQ2 ???
+                        //
+                        // return;
+
+
+
+                        if(countQ2%2!=0)
+                        {
+                            nextQuestionInGameRoom(l,gameId);
+                            // this was other turn
+                            if(questionStatus)
+                            {
+                                // other has answered correct
+
+                            }
+                            //return;
+                        }
+                        countQ2 = g.getCurrentPlayer() + 1;
+                        g.setCurrentPlayer(countQ2);
+
 
 
                         // I played and I am right
@@ -221,8 +241,7 @@ public class firebaseClass
 
 
                         // this means status is JOINED
-                        countQ2 = g.getCurrentPlayer() + 1;
-                        g.setCurrentPlayer(countQ2);
+
 
                         activity.getQuestionFromListenForChanges(qd);
                         return;
@@ -235,21 +254,22 @@ public class firebaseClass
                         if(status.equals("created"))
                         {
                             g.setStatus("joined");
-                      //      countQ2 = g.getCurrentPlayer() + 1;
-                        //    g.setCurrentPlayer(countQ2);
+                            //    countQ2 = g.getCurrentPlayer() + 1;
+                            //    g.setCurrentPlayer(countQ2);
 
+                        }
 
-                            fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>()
+                            {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
                                     activity.getQuestionFromListenForChanges(qd);
 
                                 }
                             });
 
 
-                            return;
-                        }
                         countQ2++;
                         g.setCurrentPlayer(countQ2);
 
@@ -262,14 +282,11 @@ public class firebaseClass
                         });
 
                   */
-
-                        //activity.getQuestionFromListenForChanges(qd);
                         return;
 
 
                     }
 
-                  //  QuestionData g = value.toObject(QuestionData.class);
 
                     // if created and I am host - do nothing
 
@@ -280,5 +297,19 @@ public class firebaseClass
         });
     }
 
+    public void nextQuestionInGameRoom(int level,String gameId)
+    {
+
+        String question = arr.get(countQ).getQuestion();
+        String A1 = arr.get(countQ).getA1();
+        String A2 = arr.get(countQ).getA2();
+        String A3 = arr.get(countQ).getA3();
+        String A4 = arr.get(countQ).getA4();
+        String subject = arr.get(countQ).getSubject();
+        QuestionData user = new QuestionData(subject, level, question, A1, A2, A3,A4);
+        addQuestionToFireStore(user,gameId, countQ2);
     }
+
+
+}
 
