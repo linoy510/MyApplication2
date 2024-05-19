@@ -37,6 +37,7 @@ public class roomGame
     {
         this.status= "created";
         this.currentPlayer = -1;
+        questionStatus = true;
     }
 
     public int getLevel() {

@@ -64,8 +64,8 @@ public class firebaseClass
         Random r = new Random();
         int randIndex = r.nextInt(questionCat.length - 1);
         String orderBy = questionCat[randIndex];
-        String s = "חיות";
-        firebaseFirestore.collection("questions").whereEqualTo("level", level).orderBy("a1").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //String s = "חיות";
+        firebaseFirestore.collection("questions").orderBy("a1").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 ArrayList<QuestionData> tArr = new ArrayList<>();
@@ -182,7 +182,6 @@ public class firebaseClass
                     //            if countQ is EVEN disable
 
 
-
                     g = value.toObject(roomGame.class);
                     String A1 = g.getA1();
                     String A2 = g.getA2();
@@ -197,6 +196,9 @@ public class firebaseClass
                     //g.setCurrentPlayer(countQ2 + 1);
                     //if(question wrong) enable button
                     QuestionData qd = new QuestionData(sub,l,q,A1,A2,A3,A4);
+
+
+                    Log.d("GAME DEBUG", "qdata: " + questionStatus);
 
                     // if I am host
                     if( player.equals(AppConstants.Host)) {
@@ -214,18 +216,21 @@ public class firebaseClass
 
 
 
-                        if(countQ2%2!=0)
+                        if(countQ2%2 == 0 && countQ2 != -1)
                         {
-                            nextQuestionInGameRoom(l,gameId);
+                            Log.d("GAME DEBUG", "countQ2: " + countQ2);
+
                             // this was other turn
-                            if(questionStatus)
+                            //if(questionStatus)
                             {
                                 // other has answered correct
-
+                                nextQuestionInGameRoom(l,gameId);
                             }
-                            //return;
+                            return;
                         }
-                        countQ2 = g.getCurrentPlayer() + 1;
+                        if(countQ2 == -1)
+                            countQ2 = g.getCurrentPlayer() + 1;
+
                         g.setCurrentPlayer(countQ2);
 
 
@@ -256,9 +261,6 @@ public class firebaseClass
                             g.setStatus("joined");
                             //    countQ2 = g.getCurrentPlayer() + 1;
                             //    g.setCurrentPlayer(countQ2);
-
-                        }
-
                             fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>()
                             {
                                 @Override
@@ -269,9 +271,22 @@ public class firebaseClass
                                 }
                             });
 
+                        }
+                        else
+                        {
 
-                        countQ2++;
-                        g.setCurrentPlayer(countQ2);
+                            countQ2++;
+                            g.setCurrentPlayer(countQ2);
+                            Log.d("deBug", "onEvent: " + countQ2);
+                            activity.getQuestionFromListenForChanges(qd);
+
+
+
+                        }
+
+
+
+
 
                  /*       fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -299,15 +314,19 @@ public class firebaseClass
 
     public void nextQuestionInGameRoom(int level,String gameId)
     {
-
+        countQ++;
         String question = arr.get(countQ).getQuestion();
         String A1 = arr.get(countQ).getA1();
         String A2 = arr.get(countQ).getA2();
         String A3 = arr.get(countQ).getA3();
         String A4 = arr.get(countQ).getA4();
         String subject = arr.get(countQ).getSubject();
+        countQ2++;
         QuestionData user = new QuestionData(subject, level, question, A1, A2, A3,A4);
+
         addQuestionToFireStore(user,gameId, countQ2);
+
+        activity.getQuestionFromListenForChanges(user);
     }
 
 
