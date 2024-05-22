@@ -108,7 +108,7 @@ public class OnlineGameManager implements IGetQuestion {
     {
         //QuestionData d = new QuestionData();
         roomGame g = new roomGame();
-
+        countQ2 = 1;
         g.setCurrentPlayer(countQ2);
         g.setA1(qd.getA1());
         g.setA2(qd.getA2());
@@ -122,7 +122,7 @@ public class OnlineGameManager implements IGetQuestion {
          g.setQuestionStatus(true);
         else g.setQuestionStatus(false);
 
-        f.updateResult(g, gameId, countQ2);
+        f.updateResult(g, gameId);
         //f.listenForChanges(gameId, AppConstants.Other);
     }
     @Override
@@ -161,7 +161,7 @@ public class OnlineGameManager implements IGetQuestion {
                 arr.get(countQ).getA2(),
                 arr.get(countQ).getA3(),
                 arr.get(countQ).getA4()};
-        gameView.displayQuestion(arr.get(countQ), countQ2);
+       gameView.displayQuestion(arr.get(countQ), countQ2);
         /*if(check == false)
             countQ++;*/
 

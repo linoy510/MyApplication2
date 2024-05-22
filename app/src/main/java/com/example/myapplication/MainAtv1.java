@@ -2,10 +2,13 @@ package com.example.myapplication;
 
 import static com.example.myapplication.AppConstants.*;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -130,6 +133,21 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
 
     }
 
+    ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // Handle the returned data here
+                    Intent i = new Intent(this, GameActivity1.class);
+                    i.putExtra("game id", gameid);
+                    i.putExtra("player", Host);
+                    i.putExtra("game type", "online");
+
+                    i.putExtra(game_config, two_phone);
+                    startActivity(i);
+                }
+            }
+    );
 
     public void shareWithFriends(View view)
     {
@@ -138,9 +156,12 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
         //this action indicates that you want to send data.
         shareIntent.setType("text/plain"); // for sharing text
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello! THIS IS THE CODE FOR THE GAME: " + gameid );
-        startActivityForResult(Intent.createChooser(shareIntent, "Share using"),1);
-    }
+      //  startActivityForResult(Intent.createChooser(shareIntent, "Share using"),1);
 
+        mActivityResultLauncher.launch(shareIntent);
+
+    }
+/*
     @Override
     protected void onActivityResult(int reqCode, int resCode, @Nullable Intent data)
     {
@@ -153,6 +174,8 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
         i.putExtra(game_config, two_phone);
         startActivity(i);
     }
+
+ */
 
     public void joinClicked(View view)
     {

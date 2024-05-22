@@ -181,8 +181,8 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         t2.setText(arr2.get(1));
         t3.setText(arr2.get(2));
         t4.setText(arr2.get(3));
-
-            if (currentPlayer % 2 != 0 && getIntent().getStringExtra("player").equals("host") || currentPlayer % 2 == 0 && getIntent().getStringExtra("player").equals("other")) {
+        if(countQ2 != -1)
+            if (currentPlayer != 0 && getIntent().getStringExtra("player").equals("host") || currentPlayer == 0 && getIntent().getStringExtra("player").equals("other")) {
                 t1.setVisibility(View.INVISIBLE);
                 t2.setVisibility(View.INVISIBLE);
                 t3.setVisibility(View.INVISIBLE);
@@ -201,6 +201,13 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
                 t3.setVisibility(View.VISIBLE);
                 t4.setVisibility(View.VISIBLE);
            }
+        else
+        {
+            t1.setVisibility(View.INVISIBLE);
+            t2.setVisibility(View.INVISIBLE);
+            t3.setVisibility(View.INVISIBLE);
+            t4.setVisibility(View.INVISIBLE);
+        }
 
     }
 
