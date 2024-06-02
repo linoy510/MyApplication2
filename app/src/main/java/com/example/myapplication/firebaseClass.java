@@ -91,7 +91,7 @@ public class firebaseClass
 
 
         }
-    public void addQuestionToFireStore(QuestionData qd,String gameId, int current)
+    public void addQuestionToFireStore(QuestionData qd,String gameId, int current, String status, String questionStatus)
     {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         roomGame roomGame = new roomGame();
@@ -106,6 +106,8 @@ public class firebaseClass
         roomGame.setLevel(qd.getLevel());
         roomGame.setSubject(qd.getSubject());
         roomGame.setCurrentPlayer(current);
+        roomGame.setStatus(status);
+        roomGame.setQuestionStatus(questionStatus);
 
         fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -124,7 +126,7 @@ public class firebaseClass
 
     public void updateResult(roomGame g,String gameId)
     {
-        countQ2 = 1;
+        countQ2 = 0;
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         roomGame roomGame = new roomGame();
 
@@ -136,7 +138,7 @@ public class firebaseClass
         roomGame.setLevel(g.getLevel());
         roomGame.setSubject(g.getSubject());
         roomGame.setCurrentPlayer(countQ2);
-
+        Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
         fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -190,7 +192,7 @@ public class firebaseClass
                     String q = g.getQuestion();
                     String sub = g.getSubject();
                     int l = g.getLevel();
-                    boolean questionStatus = g.getQuestionStatus();
+                    String questionStatus = g.getQuestionStatus();
                     String status = g.getStatus();
                     countQ2 = g.getCurrentPlayer();
                     //g.setCurrentPlayer(countQ2 + 1);
@@ -205,7 +207,7 @@ public class firebaseClass
 
                         if (g.getStatus().equals("created"))
                         {
-                            addQuestionToFireStore(qd,gameId,countQ2);
+                            addQuestionToFireStore(qd,gameId,countQ2, "created", questionStatus);
                             return;
                         }
 
@@ -222,15 +224,16 @@ public class firebaseClass
                             Log.d("GAME DEBUG", "countQ2: " + countQ2);
 
                             // this was other turn
-                            if(questionStatus)
+                            if(questionStatus.equals("true"))
                             {
                                 // other has answered correct
                                 nextQuestionInGameRoom(l,gameId);
+                                return;
                             }
-                            return;
+
 
                         }
-
+                        Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
 
                         g.setCurrentPlayer(countQ2);
 
@@ -252,7 +255,7 @@ public class firebaseClass
                         activity.getQuestionFromListenForChanges(qd);
                         return;
                         // this means that CountQ2 is not zero
-                        // game is ongoing
+                        // game is ongoingHello! THIS IS THE CODE FOR THE GAME: B31O5nJvY4NavTTf6c8A
 
                     }
                     else
@@ -262,6 +265,7 @@ public class firebaseClass
                             g.setStatus("joined");
                             //    countQ2 = g.getCurrentPlayer() + 1;
                             //    g.setCurrentPlayer(countQ2);
+                            //g.setCurrentPlayer(0);
                             fb.collection("GameRoom").document(gameId).set(g).addOnCompleteListener(new OnCompleteListener<Void>()
                             {
                                 @Override
@@ -281,7 +285,7 @@ public class firebaseClass
 //                            }
 
                             g.setCurrentPlayer(countQ2);
-                            Log.d("deBug", "onEvent: " + countQ2);
+                            Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
                             activity.getQuestionFromListenForChanges(qd);
 
 
@@ -328,9 +332,9 @@ public class firebaseClass
         //countQ2 = 0;
         QuestionData user = new QuestionData(subject, level, question, A1, A2, A3,A4);
 
-        addQuestionToFireStore(user,gameId, countQ2);
-
-        activity.getQuestionFromListenForChanges(user);
+        addQuestionToFireStore(user,gameId, countQ2, "joined", "posted");
+        Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
+        //activity.getQuestionFromListenForChanges(user);
     }
 
 

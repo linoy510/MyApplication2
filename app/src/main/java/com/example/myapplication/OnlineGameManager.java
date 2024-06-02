@@ -108,7 +108,7 @@ public class OnlineGameManager implements IGetQuestion {
     {
         //QuestionData d = new QuestionData();
         roomGame g = new roomGame();
-        countQ2 = 1;
+        countQ2 = 0;
         g.setCurrentPlayer(countQ2);
         g.setA1(qd.getA1());
         g.setA2(qd.getA2());
@@ -119,8 +119,8 @@ public class OnlineGameManager implements IGetQuestion {
         g.setSubject(qd.getSubject());
         g.setStatus("joined");
         if(check)
-         g.setQuestionStatus(true);
-        else g.setQuestionStatus(false);
+         g.setQuestionStatus("true");
+        else g.setQuestionStatus("false");
 
         f.updateResult(g, gameId);
         //f.listenForChanges(gameId, AppConstants.Other);
@@ -141,12 +141,22 @@ public class OnlineGameManager implements IGetQuestion {
 
     public void setNextQuestionInGameRoom(boolean check)
     {
-        /*if(check == false)
+        /*
         {
             countQ--;
         } if(countQ2 % 2 != 0 && countQ2 != -1)
             countQ++;*/
-
+        String c = "true";
+        if(check == false)
+        {
+            c = "false";
+        }
+        if(countQ2==0)
+        {
+            countQ2++;
+        }
+        if(countQ2 != -1)
+            status = "joined";
         String question = arr.get(countQ).getQuestion();
         String A1 = arr.get(countQ).getA1();
         String A2 = arr.get(countQ).getA2();
@@ -155,13 +165,17 @@ public class OnlineGameManager implements IGetQuestion {
         String subject = arr.get(countQ).getSubject();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         QuestionData user = new QuestionData(subject, level, question, A1, A2, A3,A4);
-        f.addQuestionToFireStore(user,gameId, countQ2);
 
-        String[] srr = {arr.get(countQ).getA1(),
-                arr.get(countQ).getA2(),
-                arr.get(countQ).getA3(),
-                arr.get(countQ).getA4()};
-       gameView.displayQuestion(arr.get(countQ), countQ2);
+        f.addQuestionToFireStore(user,gameId, countQ2, status, c);
+        if(countQ2 == -1)
+        {
+            String[] srr = {arr.get(countQ).getA1(),
+                    arr.get(countQ).getA2(),
+                    arr.get(countQ).getA3(),
+                    arr.get(countQ).getA4()};
+            gameView.displayQuestion(arr.get(countQ), countQ2);
+        }
+
         /*if(check == false)
             countQ++;*/
 

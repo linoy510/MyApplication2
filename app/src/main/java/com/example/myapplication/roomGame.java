@@ -6,11 +6,11 @@ public class roomGame
 {
     private String status;
 
-    public boolean getQuestionStatus() {
+    public String getQuestionStatus() {
         return questionStatus;
     }
 
-    public void setQuestionStatus(boolean questionStatus) {
+    public void setQuestionStatus(String questionStatus) {
         this.questionStatus = questionStatus;
     }
 
@@ -22,7 +22,7 @@ public class roomGame
         this.level = level;
     }
 
-    private boolean questionStatus;
+    private String questionStatus;
     private String namePlayer1;
     private String namePlayer2;
     private int currentPlayer;
@@ -37,7 +37,7 @@ public class roomGame
     {
         this.status= "created";
         this.currentPlayer = -1;
-        questionStatus = true;
+        questionStatus = "true";
     }
 
     public int getLevel() {
