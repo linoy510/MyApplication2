@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class GameActivity1 extends AppCompatActivity implements View.OnClickListener,IGetQuestion,IGameView{
+public abstract class GameActivity1 extends AppCompatActivity implements View.OnClickListener,IGetQuestion,IGameView{
 
 
     private int counter = 0;
@@ -172,7 +172,14 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void displayQuestion(QuestionData q, int currentPlayer) {
+    public void displayQuestion(QuestionData q, int currentPlayer, String questionStatus) {
+        if(getIntent().getStringExtra("player").equals("other") && questionStatus.equals("false") && currentPlayer == 1 || getIntent().getStringExtra("player").equals("host") && questionStatus.equals("false") && currentPlayer == 0)
+        {
+            t1.setVisibility(View.VISIBLE);
+            t2.setVisibility(View.VISIBLE);
+            t3.setVisibility(View.VISIBLE);
+            t4.setVisibility(View.VISIBLE);
+        }
         currentQuestion = q;//arr.get(countQ);
         t.setText(currentQuestion.getQuestion());
         ArrayList<String> arr2 = currentQuestion.shuffleQuestions();
@@ -192,6 +199,7 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
             }
             else
             {
+
                 t1.setVisibility(View.VISIBLE);
                 t2.setVisibility(View.VISIBLE);
                 t3.setVisibility(View.VISIBLE);

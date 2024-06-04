@@ -219,6 +219,22 @@ public class firebaseClass
                         if(countQ2 == -1)
                             countQ2 = 0;
 
+                        // 1. If it is other:
+                        // 2. if question is posted -> it is other's question - only display and enable buttons
+                        // 3. if status is true -> this means it is the question otherI answered, do nothing
+                        // 4. if status is false -> this means host has answered wrong -> enable buttons
+
+                        // !!! what the other set's in firebase!! after answering
+
+
+                        // If it is host:
+                        // if it is true -> other answered correct post new question("posted") , countq2 is host
+                        // if it is false -> enable buttons
+
+                        // countQ2 -> whose turn
+                        // questionStatus -> posted, true false
+                        if(questionStatus.equals("posted"))
+                            return;
                         if(countQ2 != 0)
                         {
                             Log.d("GAME DEBUG", "countQ2: " + countQ2);
@@ -252,7 +268,7 @@ public class firebaseClass
                         // this means status is JOINED
 
 
-                        activity.getQuestionFromListenForChanges(qd);
+                        activity.getQuestionFromListenForChanges(qd, questionStatus);
                         return;
                         // this means that CountQ2 is not zero
                         // game is ongoingHello! THIS IS THE CODE FOR THE GAME: B31O5nJvY4NavTTf6c8A
@@ -271,7 +287,7 @@ public class firebaseClass
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task)
                                 {
-                                    activity.getQuestionFromListenForChanges(qd);
+                                    activity.getQuestionFromListenForChanges(qd, questionStatus);
 
 
                                 }
@@ -286,7 +302,7 @@ public class firebaseClass
 
                             g.setCurrentPlayer(countQ2);
                             Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
-                            activity.getQuestionFromListenForChanges(qd);
+                            activity.getQuestionFromListenForChanges(qd, questionStatus);
 
 
 
