@@ -126,12 +126,12 @@ public class OnlineGameManager implements IGetQuestion {
         //f.listenForChanges(gameId, AppConstants.Other);
     }
     @Override
-    public void getQuestionFromListenForChanges(QuestionData d, String questionStatus2)
+    public void getQuestionFromListenForChanges(QuestionData d, String questionStatus)
     {
         /*if(player.equals(AppConstants.Host))
             setNextQuestionInGameRoom();*/
         //if(!player.equals(AppConstants.Host) || countQ2 == -1 || countQ2 == 0)
-       gameView.displayQuestion(d, countQ2, questionStatus2);
+       gameView.displayQuestion(d, countQ2, questionStatus);
         /*else
             nextQuestionInGameRoom();*/
     }
@@ -143,7 +143,7 @@ public class OnlineGameManager implements IGetQuestion {
             countQ--;
         } if(countQ2 % 2 != 0 && countQ2 != -1)
             countQ++;*/
-        String c = "posted";
+        String c = "true";
         if(check == false)
         {
             c = "false";

@@ -138,7 +138,9 @@ public class firebaseClass
         roomGame.setLevel(g.getLevel());
         roomGame.setSubject(g.getSubject());
         roomGame.setCurrentPlayer(countQ2);
+        roomGame.setQuestionStatus(g.getQuestionStatus());
         Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
+
         fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -216,8 +218,7 @@ public class firebaseClass
                         //
                         // return;
 
-                        if(countQ2 == -1)
-                            countQ2 = 0;
+
 
                         // 1. If it is other:
                         // 2. if question is posted -> it is other's question - only display and enable buttons
@@ -233,10 +234,14 @@ public class firebaseClass
 
                         // countQ2 -> whose turn
                         // questionStatus -> posted, true false
-                        if(questionStatus.equals("posted"))
-                            return;
-                        if(countQ2 != 0)
+                        //if(questionStatus.equals("posted") && countQ2 == 1) return;
+                        if(countQ2 == 0)
                         {
+                           // if(questionStatus.equals("posted"))
+                           // {
+                             //   activity.getQuestionFromListenForChanges(qd, questionStatus);
+                             //   return;
+                           // }
                             Log.d("GAME DEBUG", "countQ2: " + countQ2);
 
                             // this was other turn
@@ -246,9 +251,9 @@ public class firebaseClass
                                 nextQuestionInGameRoom(l,gameId);
                                 return;
                             }
-
-
                         }
+                        if(countQ2 == -1)
+                            countQ2 = 0;
                         Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
 
                         g.setCurrentPlayer(countQ2);
@@ -299,7 +304,7 @@ public class firebaseClass
 //                            if(countQ2 ==0){
 //                                countQ2 = 1;
 //                            }
-
+                            //if(questionStatus.equals("posted")) return;
                             g.setCurrentPlayer(countQ2);
                             Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
                             activity.getQuestionFromListenForChanges(qd, questionStatus);
