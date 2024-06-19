@@ -118,6 +118,7 @@ public class MainAtv1 extends AppCompatActivity implements AdapterView.OnItemSel
                 shareImage.setVisibility(View.VISIBLE);
 
                 Log.d("ONSUCCESS", "id:" + documentReference.getId());
+                Log.d("ONSUCCESS", "id:" + documentReference.getId());
                 //shareWithFriends(view);
             }
 

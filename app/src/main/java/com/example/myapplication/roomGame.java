@@ -23,8 +23,8 @@ public class roomGame
     }
 
     private String questionStatus;
-    private String namePlayer1;
-    private String namePlayer2;
+    private int namePlayer1;
+    private int namePlayer2;
     private int currentPlayer;
     private String question;
     private String A1;
@@ -35,6 +35,8 @@ public class roomGame
     private int level;
     public roomGame()
     {
+        namePlayer1 = 0;
+        namePlayer2 = 0;
         this.status= "created";
         this.currentPlayer = -1;
         questionStatus = "true";
@@ -54,19 +56,19 @@ public class roomGame
         this.status = status;
     }
 
-    public String getNamePlayer1() {
+    public int getNamePlayer1() {
         return namePlayer1;
     }
 
-    public void setNamePlayer1(String namePlayer1) {
+    public void setNamePlayer1(int namePlayer1) {
         this.namePlayer1 = namePlayer1;
     }
 
-    public String getNamePlayer2() {
+    public int getNamePlayer2() {
         return namePlayer2;
     }
 
-    public void setNamePlayer2(String namePlayer2) {
+    public void setNamePlayer2(int namePlayer2) {
         this.namePlayer2 = namePlayer2;
     }
 

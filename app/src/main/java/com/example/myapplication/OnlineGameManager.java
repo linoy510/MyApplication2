@@ -90,7 +90,7 @@ public class OnlineGameManager implements IGetQuestion {
 
             arr.addAll(arrResult.subList(0, arrResult.size() - 1));
 
-            setNextQuestionInGameRoom(true);
+            setNextQuestionInGameRoom("true");
 
             if(!gameStarted)
             {
@@ -104,7 +104,7 @@ public class OnlineGameManager implements IGetQuestion {
 
     }
 
-    public void setOtherResult(boolean check, QuestionData qd)
+    public void setOtherResult(String check, QuestionData qd)
     {
         //QuestionData d = new QuestionData();
         roomGame g = new roomGame();
@@ -118,7 +118,7 @@ public class OnlineGameManager implements IGetQuestion {
         g.setLevel(qd.getLevel());
         g.setSubject(qd.getSubject());
         g.setStatus("joined");
-        if(check)
+        if(check.equals("true"))
          g.setQuestionStatus("true");
         else g.setQuestionStatus("false");
 
@@ -136,7 +136,7 @@ public class OnlineGameManager implements IGetQuestion {
             nextQuestionInGameRoom();*/
     }
 
-    public void setNextQuestionInGameRoom(boolean check)
+    public void setNextQuestionInGameRoom(String check)
     {
         /*
         {
@@ -144,7 +144,7 @@ public class OnlineGameManager implements IGetQuestion {
         } if(countQ2 % 2 != 0 && countQ2 != -1)
             countQ++;*/
         String c = "true";
-        if(check == false)
+        if(check.equals("false"))
         {
             c = "false";
         }

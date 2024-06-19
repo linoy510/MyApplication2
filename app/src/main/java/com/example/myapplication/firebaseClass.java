@@ -1,10 +1,14 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.AppConstants.Other;
+import static com.example.myapplication.AppConstants.game_config;
+import static com.example.myapplication.AppConstants.two_phone;
 import static com.example.myapplication.GameActivity1.countQ;
 import static com.example.myapplication.GameActivity1.countQ2;
 import static com.example.myapplication.OnlineGameManager.arr;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -108,11 +112,30 @@ public class firebaseClass
         roomGame.setCurrentPlayer(current);
         roomGame.setStatus(status);
         roomGame.setQuestionStatus(questionStatus);
+        if(questionStatus.equals("true"))
+            roomGame.setNamePlayer1(1);
 
         fb.collection("GameRoom").document(gameId).set(roomGame).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Log.d("AddQuestion ", "onSuccess: added");
+
+                if(questionStatus.equals("finish"))
+                {
+                    if(g.getNamePlayer1() >= 5)
+                    {
+                        Intent i = new Intent((Activity)activity, finishPage.class);
+                        i.putExtra("winOrLose", "win");
+                        ((Activity)activity).startActivity(i);
+                    }
+                    else
+                    {
+                        Intent i = new Intent((Activity)activity, finishPage.class);
+                        i.putExtra("winOrLose", "lose");
+                        ((Activity)activity).startActivity(i);
+                    }
+
+                }
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -304,10 +327,28 @@ public class firebaseClass
 //                            if(countQ2 ==0){
 //                                countQ2 = 1;
 //                            }
-                            //if(questionStatus.equals("posted")) return;
-                            g.setCurrentPlayer(countQ2);
-                            Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
-                            activity.getQuestionFromListenForChanges(qd, questionStatus);
+                            if(g.getQuestionStatus().equals("finish"))
+                            {
+                                if(g.getNamePlayer2() >= 5)
+                                {
+                                    Intent i = new Intent((Activity)activity, finishPage.class);
+                                    i.putExtra("winOrLose", "win");
+                                    ((Activity)activity).startActivity(i);
+                                }
+                                else
+                                {
+                                    Intent i = new Intent((Activity)activity, finishPage.class);
+                                    i.putExtra("winOrLose", "lose");
+                                    ((Activity)activity).startActivity(i);
+                                }
+                            }
+                            else
+                            {
+                                g.setCurrentPlayer(countQ2);
+                                Log.d("count2", "nextQuestionInGameRoom: " + countQ2);
+                                activity.getQuestionFromListenForChanges(qd, questionStatus);
+                            }
+
 
 
 

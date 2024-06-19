@@ -129,12 +129,12 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
     {
         Button b = (Button)v;
         String s = b.getText().toString();
-        boolean check = false;
+        String check = "false";
         if(currentQuestion.checkAnswer(s))
         {
             Toast.makeText(GameActivity1.this, "you are right!", Toast.LENGTH_SHORT).show();
             countQ++;
-            check = true;
+            check = ("true");
         }
         else Toast.makeText(GameActivity1.this, "you are wrong", Toast.LENGTH_SHORT).show();
         //countQ++;
@@ -146,7 +146,14 @@ public class GameActivity1 extends AppCompatActivity implements View.OnClickList
         // other pudate other anwer and countQ2
         {
             if(getIntent().getStringExtra("player").equals("host"))
+            {
+                if(countQ >= 10)
+                {
+                    check = ("finish");
+                }
                 onlineGameManager.setNextQuestionInGameRoom(check);
+            }
+
             else // other
             {
                 //onlineGameManager.startGame();
